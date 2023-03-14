@@ -1,10 +1,14 @@
-import { StyleSheet, Text, View } from "react-native";
+import "react-native-gesture-handler";
+import { StyleSheet, View } from "react-native";
 import React from "react";
-import HomeScreen from "./screens/home-screen";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
 import { useState, useCallback, useEffect } from "react";
+import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
+import Title from "./components/title";
+import MyStack from "./navigation";
+import { NativeBaseProvider, extendTheme } from "native-base";
 
 let customFonts = {
   GVTimeRegular: require("./assets/fonts/GvTimeRegular.ttf"),
@@ -12,8 +16,32 @@ let customFonts = {
 
 SplashScreen.preventAutoHideAsync();
 
+const MyTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: "rgb(130, 170, 227)",
+    background: "rgb(191, 234, 245)",
+  },
+};
+
 const App = () => {
   const [appIsReady, setAppIsReady] = useState(false);
+
+  const theme = extendTheme({
+    components: {
+      Button: {
+        defaultProps: {
+          colorScheme: "rgb(130, 170, 227)",
+        },
+      },
+      Text: {
+        baseStyle: {
+          color: "rgb(130, 170, 227)",
+        },
+      },
+    },
+  });
 
   useEffect(() => {
     async function prepare() {
@@ -41,9 +69,14 @@ const App = () => {
   }
 
   return (
-    <View style={styles.container} onLayout={onLayoutRootView}>
-      <HomeScreen />
-    </View>
+    <NativeBaseProvider theme={theme}>
+      <View style={styles.container} onLayout={onLayoutRootView}>
+        <Title />
+        <NavigationContainer theme={MyTheme}>
+          <MyStack />
+        </NavigationContainer>
+      </View>
+    </NativeBaseProvider>
   );
 };
 
@@ -51,8 +84,6 @@ export default App;
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 40,
-    paddingHorizontal: 16,
     backgroundColor: "#BFEAF5",
     flex: 1,
   },

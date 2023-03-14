@@ -13,13 +13,14 @@ export default Title;
 
 const styles = StyleSheet.create({
   title: {
-    color: "#EAFDFC",
+    color: "rgb(234, 253, 252)",
     fontSize: 60,
     fontFamily: "GVTimeRegular",
   },
   titleContainer: {
     height: 150,
-    backgroundColor: "#82AAE3",
+    paddingTop: 30,
+    backgroundColor: "rgb(130, 170, 227)",
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
