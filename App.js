@@ -9,6 +9,7 @@ import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import Title from "./components/title";
 import MyStack from "./navigation";
 import { NativeBaseProvider, extendTheme } from "native-base";
+import { colorPalette } from "./theme/color-palette";
 
 let customFonts = {
   GVTimeRegular: require("./assets/fonts/GvTimeRegular.ttf"),
@@ -20,8 +21,8 @@ const MyTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: "rgb(130, 170, 227)",
-    background: "rgb(191, 234, 245)",
+    primary: colorPalette.textColor,
+    background: colorPalette.backgroundColor,
   },
 };
 
@@ -32,12 +33,12 @@ const App = () => {
     components: {
       Button: {
         defaultProps: {
-          colorScheme: "rgb(130, 170, 227)",
+          colorScheme: colorPalette.componentsBackgroundColor,
         },
       },
       Text: {
         baseStyle: {
-          color: "rgb(130, 170, 227)",
+          color: colorPalette.textColor,
         },
       },
     },

@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Button } from "native-base";
+import { colorPalette } from "../theme/color-palette";
 
 const HomeScreen = ({ navigation }) => {
   return (
@@ -9,7 +10,7 @@ const HomeScreen = ({ navigation }) => {
         <Button
           onPress={() => navigation.navigate("Quiz")}
           _text={{
-            color: "rgb(234, 253, 252)",
+            color: colorPalette.componentTextColor,
           }}
           size="lg"
         >
@@ -20,7 +21,7 @@ const HomeScreen = ({ navigation }) => {
         <Button
           onPress={() => navigation.navigate("Quiz")}
           _text={{
-            color: "rgb(234, 253, 252)",
+            color: colorPalette.componentTextColor,
           }}
           size="lg"
         >
@@ -31,7 +32,7 @@ const HomeScreen = ({ navigation }) => {
         <Button
           onPress={() => navigation.navigate("Quiz")}
           _text={{
-            color: "rgb(234, 253, 252)",
+            color: colorPalette.componentTextColor,
           }}
           size="lg"
         >
