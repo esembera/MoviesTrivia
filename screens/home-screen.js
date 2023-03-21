@@ -2,10 +2,18 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Button } from "native-base";
 import { colorPalette } from "../theme/color-palette";
+import { auth } from "../firebase";
 
 const HomeScreen = ({ navigation }) => {
+  const handleSignOut = () => {
+    auth.signOut().then(() => {
+      navigation.replace("Login");
+    });
+  };
+
   return (
     <View style={styles.container}>
+      <Text style={styles.welcomeText}>Welcome {auth.currentUser?.email}</Text>
       <View style={styles.buttonContainer}>
         <Button
           onPress={() => navigation.navigate("Quiz")}
@@ -30,7 +38,7 @@ const HomeScreen = ({ navigation }) => {
       </View>
       <View style={styles.buttonContainer}>
         <Button
-          onPress={() => navigation.navigate("Quiz")}
+          onPress={handleSignOut}
           _text={{
             color: colorPalette.componentTextColor,
           }}
@@ -49,8 +57,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
+    alignItems: "center",
   },
   buttonContainer: {
     margin: 15,
+    width: "85%",
+  },
+  welcomeText: {
+    fontSize: 16,
+    color: colorPalette.textColor,
+    fontWeight: "700",
   },
 });
