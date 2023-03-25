@@ -16,6 +16,17 @@ const HomeScreen = ({ navigation }) => {
       <Text style={styles.welcomeText}>Welcome {auth.currentUser?.email}</Text>
       <View style={styles.buttonContainer}>
         <Button
+          onPress={() => navigation.navigate("Discover")}
+          _text={{
+            color: colorPalette.componentTextColor,
+          }}
+          size="lg"
+        >
+          Discover Movies
+        </Button>
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button
           onPress={() => navigation.navigate("Quiz")}
           _text={{
             color: colorPalette.componentTextColor,
