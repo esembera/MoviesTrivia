@@ -1,21 +1,14 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, FlatList } from "react-native";
 import React, { useEffect, useState } from "react";
 import { getMovies } from "../services/movie.service";
 import { genres } from "../statics/genres.json";
-import {
-  FlatList,
-  Avatar,
-  HStack,
-  Text,
-  Box,
-  VStack,
-  Spacer,
-} from "native-base";
-
+import { Text } from "native-base";
 import { MOVIESDB_IMAGE_URL } from "@env";
+import MovieThumbnail from "../components/movieThumbnail";
 
 const DiscoverScreen = () => {
   const [movies, setMovies] = useState([]);
+  const [movie, setMovie] = useState([]);
 
   useEffect(() => {
     const getDiscoverMovies = async () => {
@@ -23,6 +16,8 @@ const DiscoverScreen = () => {
         "/discover/movie",
         "&sort_by=popularity.desc"
       );
+      let tempMovies = [];
+      setMovie(response.results[0]);
       response.results.forEach((movie) => {
         let genreNames = [];
         movie.genre_ids.forEach((genreId) => {
@@ -34,7 +29,10 @@ const DiscoverScreen = () => {
           movie.genre_ids = genreNames;
         });
       });
-      setMovies(response.results);
+      for (i = 0; i < 18; i++) {
+        tempMovies.push(response.results[i]);
+      }
+      setMovies(tempMovies);
 
       const images = response.results.map((data) => {
         `${MOVIESDB_IMAGE_URL}${data.backdrop_path}`;
@@ -42,67 +40,25 @@ const DiscoverScreen = () => {
     };
     getDiscoverMovies();
   }, []);
+  // movies.forEach((movie) => {
+  //   console.log(movie);
+  // });
 
   return (
     <View>
-      <Text style={styles.topText}>Featured movies</Text>
-
+      <Text style={styles.topText}>Currently popular movies</Text>
       <FlatList
+        numColumns={3}
         data={movies}
+        style={styles.container}
+        scrollIndicatorInsets={{ right: 1 }}
         renderItem={({ item }) => (
-          <Box
-            borderBottomWidth="1"
-            _dark={{
-              borderColor: "muted.50",
-            }}
-            borderColor="muted.800"
-            pl={["2", "4"]}
-            pr={["2", "4"]}
-            py="4"
-          >
-            <HStack space={[1, 4]} justifyContent="space-between">
-              <Avatar
-                size="64px"
-                source={{
-                  uri: `${MOVIESDB_IMAGE_URL}${item.backdrop_path}`,
-                }}
-              />
-              <VStack>
-                <Text
-                  _dark={{
-                    color: "warmGray.50",
-                  }}
-                  color="coolGray.800"
-                  bold
-                >
-                  {item.title}
-                </Text>
-                <Text
-                  color="coolGray.600"
-                  _dark={{
-                    color: "warmGray.200",
-                  }}
-                >
-                  {" "}
-                  Genre: {item.genre_ids.join(", ")}
-                </Text>
-              </VStack>
-              <Spacer />
-              <Text
-                fontSize="xs"
-                _dark={{
-                  color: "warmGray.50",
-                }}
-                color="coolGray.800"
-                alignSelf="flex-start"
-              >
-                {item.release_date}
-              </Text>
-            </HStack>
-          </Box>
+          <MovieThumbnail
+            imageURL={item.backdrop_path}
+            movieName={item.title}
+          />
         )}
-        keyExtractor={(item) => item.id}
-      />
+      ></FlatList>
     </View>
   );
 };
@@ -110,8 +66,11 @@ const DiscoverScreen = () => {
 const styles = StyleSheet.create({
   topText: {
     textAlign: "center",
-    fontSize: 30,
+    fontSize: 25,
     paddingTop: 10,
+  },
+  container: {
+    margin: 7.5,
   },
 });
 
