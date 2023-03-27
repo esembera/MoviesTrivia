@@ -8,7 +8,6 @@ import MovieThumbnail from "../components/movieThumbnail";
 
 const DiscoverScreen = () => {
   const [movies, setMovies] = useState([]);
-  const [movie, setMovie] = useState([]);
 
   useEffect(() => {
     const getDiscoverMovies = async () => {
@@ -17,7 +16,6 @@ const DiscoverScreen = () => {
         "&sort_by=popularity.desc"
       );
       let tempMovies = [];
-      setMovie(response.results[0]);
       response.results.forEach((movie) => {
         let genreNames = [];
         movie.genre_ids.forEach((genreId) => {
@@ -56,6 +54,7 @@ const DiscoverScreen = () => {
           <MovieThumbnail
             imageURL={item.backdrop_path}
             movieName={item.title}
+            movieId={item.id}
           />
         )}
       ></FlatList>
