@@ -6,26 +6,37 @@ import {
   StyleSheet,
   Image,
 } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useState, createContext } from "react";
 import { MOVIESDB_IMAGE_URL } from "@env";
 import { FavouriteMoviesContext } from "./favouriteMovies.context";
+import FadeInView from "./fadeInView";
+
+export const addedContext = createContext(false);
+export const removedContext = createContext(false);
 
 const MovieThumbnail = ({ imageURL, movieName, movieId }) => {
   const { favouriteMovies, updateFavouriteMovies } = useContext(
     FavouriteMoviesContext
   );
 
+  const [isAdded, setIsAdded] = useState(false);
+  const [isRemoved, setIsRemoved] = useState(false);
+
   function addOrRemoveFromFavourites(id) {
     let tempFavourites = [];
     let flag = 0;
     favouriteMovies.forEach((movieId) => {
       if (movieId == id) {
+        setIsRemoved(true);
+        setIsAdded(false);
         flag = 1;
         return;
       }
       tempFavourites.push(movieId);
     });
     if (flag == 0) {
+      setIsAdded(true);
+      setIsRemoved(false);
       tempFavourites.push(id);
     }
     updateFavouriteMovies(tempFavourites);
@@ -38,39 +49,67 @@ const MovieThumbnail = ({ imageURL, movieName, movieId }) => {
   let sourceURL = `${MOVIESDB_IMAGE_URL}${imageURL}`;
 
   return (
-    <View>
-      <TouchableOpacity
-        style={styles.movieThumbnail}
-        onPress={() => addOrRemoveFromFavourites(movieId)}
-      >
-        <ImageBackground
-          source={{ uri: sourceURL }}
-          style={styles.image}
-          imageStyle={{ borderRadius: 10, opacity: 0.55 }}
-          cache="force-cache"
-          progressiveRenderingEnabled={true}
-        >
-          <Text style={styles.movieTitle}>{movieName}</Text>
-          {isInFavourites(movieId) && (
-            <Image
-              style={styles.favourited}
-              source={require("../assets/pictures/yellow_star.png")}
+    <addedContext.Provider value={{ isAdded, setIsAdded }}>
+      <removedContext.Provider value={{ isRemoved, setIsRemoved }}>
+        <View>
+          <TouchableOpacity
+            style={styles.movieThumbnail}
+            onPress={() => addOrRemoveFromFavourites(movieId)}
+          >
+            <ImageBackground
+              source={{ uri: sourceURL }}
+              style={styles.image}
+              imageStyle={{ borderRadius: 10, opacity: 0.5 }}
               cache="force-cache"
               progressiveRenderingEnabled={true}
-            ></Image>
-          )}
-        </ImageBackground>
-      </TouchableOpacity>
-    </View>
+            >
+              {isInFavourites(movieId) && (
+                <Image
+                  style={styles.favourited}
+                  source={require("../assets/pictures/yellow_star.png")}
+                  cache="force-cache"
+                  progressiveRenderingEnabled={true}
+                ></Image>
+              )}
+              {!isAdded && !isRemoved && (
+                <Text style={styles.movieTitle}>{movieName}</Text>
+              )}
+              {isAdded && (
+                <FadeInView>
+                  <Image
+                    style={styles.mark}
+                    source={require("../assets/pictures/checkmark.png")}
+                    cache="force-cache"
+                    progressiveRenderingEnabled={true}
+                  />
+                  <Text style={styles.markText}>Added to favourites</Text>
+                </FadeInView>
+              )}
+              {isRemoved && (
+                <FadeInView>
+                  <Image
+                    style={styles.mark}
+                    source={require("../assets/pictures/crossmark.png")}
+                    cache="force-cache"
+                    progressiveRenderingEnabled={true}
+                  />
+                  <Text style={styles.markText}>Removed from favourites</Text>
+                </FadeInView>
+              )}
+            </ImageBackground>
+          </TouchableOpacity>
+        </View>
+      </removedContext.Provider>
+    </addedContext.Provider>
   );
 };
 
 const styles = StyleSheet.create({
   movieThumbnail: {
-    margin: 15,
+    margin: 14,
     borderRadius: 10,
-    width: 101,
-    height: 153,
+    width: 105,
+    height: 155,
   },
   image: {
     flex: 1,
@@ -85,6 +124,18 @@ const styles = StyleSheet.create({
   favourited: {
     width: 20,
     height: 20,
+    position: "absolute",
+    left: 10,
+    top: 10,
+  },
+  mark: {
+    marginLeft: "auto",
+    marginRight: "auto",
+    width: 40,
+    height: 40,
+  },
+  markText: {
+    textAlign: "center",
   },
 });
 
