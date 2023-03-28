@@ -10,7 +10,8 @@ import Title from "./components/title";
 import MyStack from "./navigation";
 import { NativeBaseProvider, extendTheme } from "native-base";
 import { colorPalette } from "./theme/color-palette";
-import FavouriteMoviesContextProvider from "./components/favouriteMovies.context";
+import FavouriteMoviesContextProvider from "./components/contexts/favouriteMovies.context";
+import { AuthProvider } from "./components/contexts/auth.context";
 
 let customFonts = {
   GVTimeRegular: require("./assets/fonts/GvTimeRegular.ttf"),
@@ -72,14 +73,16 @@ const App = () => {
 
   return (
     <NativeBaseProvider theme={theme}>
-      <FavouriteMoviesContextProvider>
-        <View style={styles.container} onLayout={onLayoutRootView}>
-          <Title />
-          <NavigationContainer theme={MyTheme}>
-            <MyStack />
-          </NavigationContainer>
-        </View>
-      </FavouriteMoviesContextProvider>
+      <AuthProvider>
+        <FavouriteMoviesContextProvider>
+          <View style={styles.container} onLayout={onLayoutRootView}>
+            <Title />
+            <NavigationContainer theme={MyTheme}>
+              <MyStack />
+            </NavigationContainer>
+          </View>
+        </FavouriteMoviesContextProvider>
+      </AuthProvider>
     </NativeBaseProvider>
   );
 };

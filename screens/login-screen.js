@@ -6,14 +6,16 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { colorPalette } from "../theme/color-palette";
 import { auth } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
+import { AuthContext } from "../components/contexts/auth.context";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { logIn, signUp } = useContext(AuthContext);
 
   const navigation = useNavigation();
 
@@ -27,8 +29,7 @@ const LoginScreen = () => {
   }, []);
 
   const handleSignUp = () => {
-    auth
-      .createUserWithEmailAndPassword(email, password)
+    signUp(email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
         console.log("Registered with user:", user.email);
@@ -37,8 +38,7 @@ const LoginScreen = () => {
   };
 
   const handleLogIn = () => {
-    auth
-      .signInWithEmailAndPassword(email, password)
+    logIn(email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
         console.log("Signed in with user:", user.email);

@@ -8,11 +8,10 @@ import {
 } from "react-native";
 import React, { useContext, useState, createContext } from "react";
 import { MOVIESDB_IMAGE_URL } from "@env";
-import { FavouriteMoviesContext } from "./favouriteMovies.context";
-import FadeInView from "./fadeInView";
+import { FavouriteMoviesContext } from "./contexts/favouriteMovies.context";
+import FadeInFadeOutAnimation from "../assets/animations/fadeInFadeOutAnimation";
 
-export const addedContext = createContext(false);
-export const removedContext = createContext(false);
+export const AddedOrRemovedContext = createContext(false);
 
 const MovieThumbnail = ({ imageURL, movieName, movieId }) => {
   const { favouriteMovies, updateFavouriteMovies } = useContext(
@@ -49,58 +48,58 @@ const MovieThumbnail = ({ imageURL, movieName, movieId }) => {
   let sourceURL = `${MOVIESDB_IMAGE_URL}${imageURL}`;
 
   return (
-    <addedContext.Provider value={{ isAdded, setIsAdded }}>
-      <removedContext.Provider value={{ isRemoved, setIsRemoved }}>
-        <View>
-          <TouchableOpacity
-            style={styles.movieThumbnail}
-            onPress={() => addOrRemoveFromFavourites(movieId)}
+    <AddedOrRemovedContext.Provider
+      value={{ isAdded, setIsAdded, isRemoved, setIsRemoved }}
+    >
+      <View>
+        <TouchableOpacity
+          style={styles.movieThumbnail}
+          onPress={() => addOrRemoveFromFavourites(movieId)}
+        >
+          <ImageBackground
+            source={{ uri: sourceURL }}
+            style={styles.image}
+            imageStyle={{ borderRadius: 10, opacity: 0.5 }}
+            cache="force-cache"
+            progressiveRenderingEnabled={true}
           >
-            <ImageBackground
-              source={{ uri: sourceURL }}
-              style={styles.image}
-              imageStyle={{ borderRadius: 10, opacity: 0.5 }}
-              cache="force-cache"
-              progressiveRenderingEnabled={true}
-            >
-              {isInFavourites(movieId) && (
+            {isInFavourites(movieId) && (
+              <Image
+                style={styles.favourited}
+                source={require("../assets/pictures/yellow_star.png")}
+                cache="force-cache"
+                progressiveRenderingEnabled={true}
+              ></Image>
+            )}
+            {!isAdded && !isRemoved && (
+              <Text style={styles.movieTitle}>{movieName}</Text>
+            )}
+            {isAdded && (
+              <FadeInFadeOutAnimation>
                 <Image
-                  style={styles.favourited}
-                  source={require("../assets/pictures/yellow_star.png")}
+                  style={styles.mark}
+                  source={require("../assets/pictures/checkmark.png")}
                   cache="force-cache"
                   progressiveRenderingEnabled={true}
-                ></Image>
-              )}
-              {!isAdded && !isRemoved && (
-                <Text style={styles.movieTitle}>{movieName}</Text>
-              )}
-              {isAdded && (
-                <FadeInView>
-                  <Image
-                    style={styles.mark}
-                    source={require("../assets/pictures/checkmark.png")}
-                    cache="force-cache"
-                    progressiveRenderingEnabled={true}
-                  />
-                  <Text style={styles.markText}>Added to favourites</Text>
-                </FadeInView>
-              )}
-              {isRemoved && (
-                <FadeInView>
-                  <Image
-                    style={styles.mark}
-                    source={require("../assets/pictures/crossmark.png")}
-                    cache="force-cache"
-                    progressiveRenderingEnabled={true}
-                  />
-                  <Text style={styles.markText}>Removed from favourites</Text>
-                </FadeInView>
-              )}
-            </ImageBackground>
-          </TouchableOpacity>
-        </View>
-      </removedContext.Provider>
-    </addedContext.Provider>
+                />
+                <Text style={styles.markText}>Added to favourites</Text>
+              </FadeInFadeOutAnimation>
+            )}
+            {isRemoved && (
+              <FadeInFadeOutAnimation>
+                <Image
+                  style={styles.mark}
+                  source={require("../assets/pictures/crossmark.png")}
+                  cache="force-cache"
+                  progressiveRenderingEnabled={true}
+                />
+                <Text style={styles.markText}>Removed from favourites</Text>
+              </FadeInFadeOutAnimation>
+            )}
+          </ImageBackground>
+        </TouchableOpacity>
+      </View>
+    </AddedOrRemovedContext.Provider>
   );
 };
 

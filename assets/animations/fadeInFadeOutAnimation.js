@@ -1,11 +1,9 @@
 import React, { useRef, useEffect, useContext } from "react";
 import { Animated } from "react-native";
-import { addedContext } from "./movieThumbnail";
-import { removedContext } from "./movieThumbnail";
+import { AddedOrRemovedContext } from "../../components/movieThumbnail";
 
-const FadeInView = (props, {}) => {
-  const { setIsAdded } = useContext(addedContext);
-  const { setIsRemoved } = useContext(removedContext);
+const FadeInFadeOutAnimation = (props, {}) => {
+  const { setIsAdded, setIsRemoved } = useContext(AddedOrRemovedContext);
 
   const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
 
@@ -51,4 +49,4 @@ const FadeInView = (props, {}) => {
   );
 };
 
-export default FadeInView;
+export default FadeInFadeOutAnimation;
