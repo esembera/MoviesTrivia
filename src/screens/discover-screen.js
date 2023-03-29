@@ -9,6 +9,8 @@ import MovieThumbnail from "../components/movieThumbnail";
 const DiscoverScreen = () => {
   const [movies, setMovies] = useState([]);
 
+  //this triggers on rendering the discover movies screen, and it gets the movies from tmdb api and puts 18 of them
+  //in our own movies array which we can manipulate then
   useEffect(() => {
     const getDiscoverMovies = async () => {
       const response = await getMovies(
@@ -38,6 +40,7 @@ const DiscoverScreen = () => {
     };
     getDiscoverMovies();
   }, []);
+
   // movies.forEach((movie) => {
   //   console.log(movie);
   // });

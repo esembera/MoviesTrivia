@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useContext } from "react";
 import { Animated } from "react-native";
-import { AddedOrRemovedContext } from "../../components/movieThumbnail";
+import { AddedOrRemovedContext } from "../../src/components/movieThumbnail";
 
+//fade in, fade out animation used for displaying info message when adding or removing the movie from favourites
 const FadeInFadeOutAnimation = (props, {}) => {
   const { setIsAdded, setIsRemoved } = useContext(AddedOrRemovedContext);
 

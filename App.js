@@ -6,12 +6,12 @@ import * as SplashScreen from "expo-splash-screen";
 
 import { useState, useCallback, useEffect } from "react";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
-import Title from "./components/title";
-import MyStack from "./navigation";
+import Title from "./src/statics/title";
+import MyStack from "./src/navigation";
 import { NativeBaseProvider, extendTheme } from "native-base";
-import { colorPalette } from "./theme/color-palette";
-import FavouriteMoviesContextProvider from "./components/contexts/favouriteMovies.context";
-import { AuthProvider } from "./components/contexts/auth.context";
+import { colorPalette } from "./assets/theme/color-palette";
+import FavouriteMoviesContextProvider from "./src/components/contexts/favouriteMovies.context";
+import { AuthProvider } from "./src/components/contexts/auth.context";
 
 let customFonts = {
   GVTimeRegular: require("./assets/fonts/GvTimeRegular.ttf"),
@@ -45,6 +45,8 @@ const App = () => {
       },
     },
   });
+
+  //load custom font
 
   useEffect(() => {
     async function prepare() {

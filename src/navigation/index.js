@@ -7,6 +7,8 @@ import DiscoverScreen from "../screens/discover-screen";
 
 const Stack = createStackNavigator();
 
+//this is the function that handles navigation, so any new screen has to be added to this function
+//if you want the app to be able to navigate to it
 function MyStack() {
   return (
     <Stack.Navigator>

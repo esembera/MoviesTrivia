@@ -1,13 +1,19 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { Button } from "native-base";
-import { colorPalette } from "../theme/color-palette";
-import { auth } from "../firebase";
+import { colorPalette } from "../../assets/theme/color-palette";
+import { auth } from "../../firebase";
+import { FavouriteMoviesContext } from "../components/contexts/favouriteMovies.context";
 
 const HomeScreen = ({ navigation }) => {
+  const { resetFavouriteMoviesAfterLogOut } = useContext(
+    FavouriteMoviesContext
+  );
+
   const handleSignOut = () => {
     auth.signOut().then(() => {
       navigation.replace("Login");
+      resetFavouriteMoviesAfterLogOut();
     });
   };
 

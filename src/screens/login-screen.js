@@ -7,18 +7,24 @@ import {
   View,
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
-import { colorPalette } from "../theme/color-palette";
-import { auth } from "../firebase";
+import { colorPalette } from "../../assets/theme/color-palette";
+import { auth, db } from "../../firebase";
 import { useNavigation } from "@react-navigation/core";
 import { AuthContext } from "../components/contexts/auth.context";
+import { FavouriteMoviesContext } from "../components/contexts/favouriteMovies.context";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { logIn, signUp } = useContext(AuthContext);
+  const { favouriteMovies, setFavouriteMovies } = useContext(
+    FavouriteMoviesContext
+  );
 
   const navigation = useNavigation();
 
+  //this triggers on loading the login screen and once auth state changes (user either signs up or logs in),
+  //it navigates user to home screen
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
@@ -31,8 +37,10 @@ const LoginScreen = () => {
   const handleSignUp = () => {
     signUp(email, password)
       .then((userCredentials) => {
-        const user = userCredentials.user;
-        console.log("Registered with user:", user.email);
+        console.log("Registered with user:", userCredentials.user.email);
+        db.collection("users").doc(userCredentials.user.uid).set({
+          favMovies: favouriteMovies,
+        });
       })
       .catch((error) => alert(error.message));
   };
@@ -41,9 +49,17 @@ const LoginScreen = () => {
     logIn(email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
-        console.log("Signed in with user:", user.email);
+        console.log("Signed in with user:", user.email, user.uid);
+        getFavouriteMovies(user.uid);
       })
       .catch((error) => alert(error.message));
+  };
+
+  const getFavouriteMovies = (uid) => {
+    const docRef = db.collection("users").doc(`${uid}`);
+    docRef.get().then((doc) => {
+      setFavouriteMovies(doc.data().favMovies);
+    });
   };
 
   return (

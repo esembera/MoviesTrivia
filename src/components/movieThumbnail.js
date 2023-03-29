@@ -9,7 +9,7 @@ import {
 import React, { useContext, useState, createContext } from "react";
 import { MOVIESDB_IMAGE_URL } from "@env";
 import { FavouriteMoviesContext } from "./contexts/favouriteMovies.context";
-import FadeInFadeOutAnimation from "../assets/animations/fadeInFadeOutAnimation";
+import FadeInFadeOutAnimation from "../../assets/animations/fadeInFadeOutAnimation";
 
 export const AddedOrRemovedContext = createContext(false);
 
@@ -21,6 +21,8 @@ const MovieThumbnail = ({ imageURL, movieName, movieId }) => {
   const [isAdded, setIsAdded] = useState(false);
   const [isRemoved, setIsRemoved] = useState(false);
 
+  //function which on click of a movie thumbnail adds or removes movie from favourites, and the action
+  //is decided by looking up in the favouriteMovies array and looking if the clicked movie is already inside
   function addOrRemoveFromFavourites(id) {
     let tempFavourites = [];
     let flag = 0;
@@ -41,10 +43,12 @@ const MovieThumbnail = ({ imageURL, movieName, movieId }) => {
     updateFavouriteMovies(tempFavourites);
   }
 
+  //function that checks whether the movies is in favourites or not
   function isInFavourites(id) {
     return favouriteMovies.includes(id);
   }
 
+  //source url for movie thumbnail
   let sourceURL = `${MOVIESDB_IMAGE_URL}${imageURL}`;
 
   return (
@@ -66,7 +70,7 @@ const MovieThumbnail = ({ imageURL, movieName, movieId }) => {
             {isInFavourites(movieId) && (
               <Image
                 style={styles.favourited}
-                source={require("../assets/pictures/yellow_star.png")}
+                source={require("../../assets/pictures/yellow_star.png")}
                 cache="force-cache"
                 progressiveRenderingEnabled={true}
               ></Image>
@@ -78,7 +82,7 @@ const MovieThumbnail = ({ imageURL, movieName, movieId }) => {
               <FadeInFadeOutAnimation>
                 <Image
                   style={styles.mark}
-                  source={require("../assets/pictures/checkmark.png")}
+                  source={require("../../assets/pictures/checkmark.png")}
                   cache="force-cache"
                   progressiveRenderingEnabled={true}
                 />
@@ -89,7 +93,7 @@ const MovieThumbnail = ({ imageURL, movieName, movieId }) => {
               <FadeInFadeOutAnimation>
                 <Image
                   style={styles.mark}
-                  source={require("../assets/pictures/crossmark.png")}
+                  source={require("../../assets/pictures/crossmark.png")}
                   cache="force-cache"
                   progressiveRenderingEnabled={true}
                 />
