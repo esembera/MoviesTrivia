@@ -1,13 +1,21 @@
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList, Button } from "react-native";
 import React, { useEffect, useState } from "react";
 import { getMovies } from "../services/movie.service";
 import { genres } from "../statics/genres.json";
 import { Text } from "native-base";
 import { MOVIESDB_IMAGE_URL } from "@env";
 import MovieThumbnail from "../components/movieThumbnail";
+import SearchBar from "../components/searchBar";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const DiscoverScreen = () => {
   const [movies, setMovies] = useState([]);
+  const [flag, setFlag] = useState(false);
+  const [isSearchVisible, setSearchVisible] = useState(false);
+
+  const toggleSearch = () => {
+    setSearchVisible(!isSearchVisible);
+  };
 
   //this triggers on rendering the discover movies screen, and it gets the movies from tmdb api and puts 18 of them
   //in our own movies array which we can manipulate then
@@ -41,13 +49,51 @@ const DiscoverScreen = () => {
     getDiscoverMovies();
   }, []);
 
+  const getPopularMovies = async () => {
+    const response = await getMovies(
+      "/discover/movie",
+      "&sort_by=popularity.desc"
+    );
+    let tempMovies = [];
+    for (i = 0; i < 18; i++) {
+      tempMovies.push(response.results[i]);
+    }
+    setMovies(tempMovies);
+
+    const images = response.results.map((data) => {
+      `${MOVIESDB_IMAGE_URL}${data.backdrop_path}`;
+    });
+  };
+
+  const handleSearchParent = (searchedMovies) => {
+    console.log(searchedMovies.length);
+    if (searchedMovies.length == 0) {
+      getPopularMovies();
+    } else {
+      let tempMovies = [];
+      for (i = 0; i < 9; i++) {
+        tempMovies.push(searchedMovies[i]);
+      }
+      setMovies(searchedMovies);
+    }
+  };
+
   // movies.forEach((movie) => {
   //   console.log(movie);
   // });
 
   return (
     <View>
-      <Text style={styles.topText}>Currently popular movies</Text>
+      <View style={styles.topContainer}>
+        <Text style={styles.topText}>Find your favourite movies</Text>
+        <Icon
+          name="search"
+          onPress={toggleSearch}
+          size={20}
+          style={styles.topSearchIcon}
+        ></Icon>
+      </View>
+      {isSearchVisible && <SearchBar handleSearchParent={handleSearchParent} />}
       <FlatList
         numColumns={3}
         data={movies}
@@ -68,11 +114,20 @@ const DiscoverScreen = () => {
 const styles = StyleSheet.create({
   topText: {
     textAlign: "center",
-    fontSize: 25,
+    fontSize: 20,
     paddingTop: 10,
+    paddingRight: 40,
   },
   container: {
     margin: 7.5,
+  },
+  topContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  topSearchIcon: {
+    paddingTop: 9,
   },
 });
 
