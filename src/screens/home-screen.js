@@ -4,9 +4,10 @@ import { Button } from "native-base";
 import { colorPalette } from "../../assets/theme/color-palette";
 import { auth } from "../../firebase";
 import { FavouriteMoviesContext } from "../components/contexts/favouriteMovies.context";
+import { getQuiz } from "../services/movie.service";
 
 const HomeScreen = ({ navigation }) => {
-  const { resetFavouriteMoviesAfterLogOut } = useContext(
+  const { favouriteMovies, resetFavouriteMoviesAfterLogOut } = useContext(
     FavouriteMoviesContext
   );
 
@@ -17,9 +18,25 @@ const HomeScreen = ({ navigation }) => {
     });
   };
 
+  const callBackend = async () => {
+    const response = await getQuiz("/quiz-generator", favouriteMovies);
+    console.log(response);
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.welcomeText}>Welcome {auth.currentUser?.email}</Text>
+      <View style={styles.buttonContainer}>
+        <Button
+          onPress={() => callBackend()}
+          _text={{
+            color: colorPalette.componentTextColor,
+          }}
+          size="lg"
+        >
+          Backend Test Button
+        </Button>
+      </View>
       <View style={styles.buttonContainer}>
         <Button
           onPress={() => navigation.navigate("Discover")}

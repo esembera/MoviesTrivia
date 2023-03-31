@@ -10,3 +10,20 @@ export const getMovies = async (url, optionalSettings) => {
 
   return response;
 };
+
+export const getQuiz = async (url, movies) => {
+  api_url = `http://localhost:8081/api${url}`;
+
+  console.log(api_url);
+
+  let response = await fetch(api_url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      movies: movies,
+    }),
+  });
+  response = response.json();
+
+  return response;
+};

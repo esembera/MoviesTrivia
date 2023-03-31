@@ -1,4 +1,4 @@
-import { View, StyleSheet, FlatList, Button } from "react-native";
+import { View, StyleSheet, FlatList } from "react-native";
 import React, { useEffect, useState } from "react";
 import { getMovies } from "../services/movie.service";
 import { genres } from "../statics/genres.json";
@@ -10,7 +10,6 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 const DiscoverScreen = () => {
   const [movies, setMovies] = useState([]);
-  const [flag, setFlag] = useState(false);
   const [isSearchVisible, setSearchVisible] = useState(false);
 
   const toggleSearch = () => {
@@ -66,7 +65,6 @@ const DiscoverScreen = () => {
   };
 
   const handleSearchParent = (searchedMovies) => {
-    console.log(searchedMovies.length);
     if (searchedMovies.length == 0) {
       getPopularMovies();
     } else {
