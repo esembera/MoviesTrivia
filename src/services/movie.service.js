@@ -1,4 +1,4 @@
-import { MOVIESDB_BASE_URL, MOVIESDB_API_KEY } from "@env";
+import { MOVIESDB_BASE_URL, MOVIESDB_API_KEY, NGROK_URL } from "@env";
 
 //function which handles the sending of get request to tmdb api
 export const getMovies = async (url, optionalSettings) => {
@@ -12,13 +12,16 @@ export const getMovies = async (url, optionalSettings) => {
 };
 
 export const getQuiz = async (url, movies) => {
-  api_url = `http://localhost:8081/api${url}`;
+  api_url = `${NGROK_URL}/api${url}`;
 
   console.log(api_url);
 
   let response = await fetch(api_url, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      Accept: "application/json",
+      "Content-type": "application/json",
+    },
     body: JSON.stringify({
       movies: movies,
     }),
