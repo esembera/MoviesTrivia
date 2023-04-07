@@ -12,6 +12,7 @@ import { NativeBaseProvider, extendTheme } from "native-base";
 import { colorPalette } from "./assets/theme/color-palette";
 import FavouriteMoviesContextProvider from "./src/components/contexts/favouriteMovies.context";
 import { AuthProvider } from "./src/components/contexts/auth.context";
+import QuestionsContextProvider from "./src/components/contexts/questionsContext";
 
 let customFonts = {
   GVTimeRegular: require("./assets/fonts/GvTimeRegular.ttf"),
@@ -77,12 +78,14 @@ const App = () => {
     <NativeBaseProvider theme={theme}>
       <AuthProvider>
         <FavouriteMoviesContextProvider>
-          <View style={styles.container} onLayout={onLayoutRootView}>
-            <Title />
-            <NavigationContainer theme={MyTheme}>
-              <MyStack />
-            </NavigationContainer>
-          </View>
+          <QuestionsContextProvider>
+            <View style={styles.container} onLayout={onLayoutRootView}>
+              <Title />
+              <NavigationContainer theme={MyTheme}>
+                <MyStack />
+              </NavigationContainer>
+            </View>
+          </QuestionsContextProvider>
         </FavouriteMoviesContextProvider>
       </AuthProvider>
     </NativeBaseProvider>

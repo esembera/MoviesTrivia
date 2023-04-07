@@ -40,10 +40,6 @@ const DiscoverScreen = () => {
         tempMovies.push(response.results[i]);
       }
       setMovies(tempMovies);
-
-      const images = response.results.map((data) => {
-        `${MOVIESDB_IMAGE_URL}${data.backdrop_path}`;
-      });
     };
     getDiscoverMovies();
   }, []);
@@ -76,10 +72,6 @@ const DiscoverScreen = () => {
     }
   };
 
-  // movies.forEach((movie) => {
-  //   console.log(movie);
-  // });
-
   return (
     <View>
       <View style={styles.topContainer}>
@@ -89,7 +81,7 @@ const DiscoverScreen = () => {
           onPress={toggleSearch}
           size={20}
           style={styles.topSearchIcon}
-        ></Icon>
+        />
       </View>
       {isSearchVisible && <SearchBar handleSearchParent={handleSearchParent} />}
       <FlatList

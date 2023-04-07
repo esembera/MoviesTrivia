@@ -1,0 +1,14 @@
+// <View>
+    //   <View style={styles.container}>
+    //     <Text style={styles.questionText}>{question1.question}</Text>
+    //     {options.map((option, index) => (
+    //       <Button
+    //         style={styles.button}
+    //         key={index}
+    //         _text={{ textAlign: "center" }}
+    //       >
+    //         {option}
+    //       </Button>
+    //     ))}
+    //   </View>
+    // </View>

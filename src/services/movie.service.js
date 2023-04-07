@@ -11,8 +11,8 @@ export const getMovies = async (url, optionalSettings) => {
   return response;
 };
 
-export const getQuiz = async (url, movies) => {
-  api_url = `${NGROK_URL}/api${url}`;
+export const getQuiz = async (url, movies, numberOfQuestions) => {
+  api_url = `https://e7ee-79-54-145-194.eu.ngrok.io/api${url}`;
 
   console.log(api_url);
 
@@ -24,6 +24,7 @@ export const getQuiz = async (url, movies) => {
     },
     body: JSON.stringify({
       movies: movies,
+      numberOfQuestions: numberOfQuestions,
     }),
   });
   response = response.json();

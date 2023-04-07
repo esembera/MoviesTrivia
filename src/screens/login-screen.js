@@ -55,11 +55,12 @@ const LoginScreen = () => {
       .catch((error) => alert(error.message));
   };
 
-  const getFavouriteMovies = (uid) => {
+  const getFavouriteMovies = async (uid) => {
     const docRef = db.collection("users").doc(`${uid}`);
-    docRef.get().then((doc) => {
+    await docRef.get().then((doc) => {
       setFavouriteMovies(doc.data().favMovies);
     });
+    console.log(favouriteMovies);
   };
 
   return (

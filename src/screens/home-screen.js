@@ -5,11 +5,14 @@ import { colorPalette } from "../../assets/theme/color-palette";
 import { auth } from "../../firebase";
 import { FavouriteMoviesContext } from "../components/contexts/favouriteMovies.context";
 import { getQuiz } from "../services/movie.service";
+import { QuestionsContext } from "../components/contexts/questionsContext";
 
 const HomeScreen = ({ navigation }) => {
   const { favouriteMovies, resetFavouriteMoviesAfterLogOut } = useContext(
     FavouriteMoviesContext
   );
+
+  const { setQuestions } = useContext(QuestionsContext);
 
   const handleSignOut = () => {
     auth.signOut().then(() => {
@@ -19,8 +22,12 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const callBackend = async () => {
-    const response = await getQuiz("/quiz-generator", favouriteMovies);
-    console.log(response);
+    const response = await getQuiz("/quiz-generator", favouriteMovies, 10);
+    setQuestions(response);
+    navigation.navigate("Quiz");
+    // response.forEach((question) => {
+    //   console.log(question);
+    // });
   };
 
   return (
@@ -50,13 +57,14 @@ const HomeScreen = ({ navigation }) => {
       </View>
       <View style={styles.buttonContainer}>
         <Button
-          onPress={() => navigation.navigate("Quiz")}
+          onPress={() => callBackend()}
           _text={{
             color: colorPalette.componentTextColor,
           }}
+          disabled={favouriteMovies.length < 3}
           size="lg"
         >
-          Start quiz
+          Start your custom quiz
         </Button>
       </View>
       <View style={styles.buttonContainer}>

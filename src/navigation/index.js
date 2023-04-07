@@ -4,6 +4,7 @@ import HomeScreen from "../screens/home-screen";
 import LoginScreen from "../screens/login-screen";
 import QuizScreen from "../screens/quiz-screen";
 import DiscoverScreen from "../screens/discover-screen";
+import ResultsScreen from "../screens/results-screen";
 
 const Stack = createStackNavigator();
 
@@ -30,6 +31,11 @@ function MyStack() {
       <Stack.Screen
         name="Quiz"
         component={QuizScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Results"
+        component={ResultsScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
