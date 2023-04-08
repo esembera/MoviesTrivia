@@ -12,7 +12,7 @@ export const getMovies = async (url, optionalSettings) => {
 };
 
 export const getQuiz = async (url, movies, numberOfQuestions) => {
-  api_url = `https://e7ee-79-54-145-194.eu.ngrok.io/api${url}`;
+  api_url = `https://f863-95-236-158-58.ngrok-free.app/api${url}`;
 
   console.log(api_url);
 

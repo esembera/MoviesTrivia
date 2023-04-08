@@ -1,5 +1,5 @@
 import { Pressable, SafeAreaView, StyleSheet, View } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { Text } from "native-base";
 import { QuestionsContext } from "../components/contexts/questionsContext";
 import { colorPalette } from "../../assets/theme/color-palette";
@@ -15,12 +15,16 @@ const QuizScreen = ({ navigation }) => {
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const [counter, setCounter] = useState(15);
   let [options, setOptions] = useState([]);
-  let interval = null;
   const currentQuestion = questions[index];
+
+  const intervalRef = useRef(null);
 
   useEffect(() => {
     if (selectedAnswer !== "") {
-      if (selectedAnswer === currentQuestion?.correctAnswer) {
+      if (
+        currentQuestion &&
+        selectedAnswer === currentQuestion?.correctAnswer
+      ) {
         setPoints((points) => points + 10);
         setAnswerStatus(true);
         answers.push({ question: index + 1, answer: true });
@@ -46,28 +50,36 @@ const QuizScreen = ({ navigation }) => {
         setCounter(15);
       }
     };
-    interval = setTimeout(myInterval, 1000);
+    intervalRef.current = setTimeout(myInterval, 1000);
 
     return () => {
-      clearInterval(interval);
+      clearInterval(intervalRef.current);
     };
   }, [counter]);
 
   useEffect(() => {
-    if (index + 1 > questions.length) {
+    if (questions && questions.length > 0 && index + 1 > questions.length) {
       navigation.navigate("Results", {
         answers: answers,
         points: points,
       });
     }
-    options.push(currentQuestion.correctAnswer);
-    currentQuestion.wrongAnswers.forEach((answer) => options.push(answer));
-    options = shuffleQuestions(options);
+    let tempOptions = [];
+    if (currentQuestion) {
+      tempOptions.push(currentQuestion?.correctAnswer);
+      if (currentQuestion?.wrongAnswers?.forEach) {
+        currentQuestion.wrongAnswers.forEach((answer) =>
+          tempOptions.push(answer)
+        );
+      }
+      tempOptions = shuffleQuestions(tempOptions);
+      setOptions(tempOptions);
+    }
   }, [currentQuestion]);
 
   useEffect(() => {
-    if (!interval) {
-      setInterval(15);
+    if (!intervalRef.current) {
+      setCounter(15);
     }
   }, [index]);
 
@@ -95,7 +107,9 @@ const QuizScreen = ({ navigation }) => {
     <SafeAreaView>
       <View style={styles.topContainer1}>
         <Text>Your custom quiz</Text>
-        <Text style={styles.counter}>{counter}</Text>
+        <Pressable style={styles.counterContainer}>
+          <Text style={styles.counter}>{counter}</Text>
+        </Pressable>
       </View>
       <View style={styles.topContainer2}>
         <Text>Your progress</Text>
@@ -124,14 +138,14 @@ const QuizScreen = ({ navigation }) => {
               option === currentQuestion.correctAnswer ? (
                 <Icon
                   name="checkcircle"
-                  size={24}
+                  size={22}
                   style={styles.answerText}
                   color={"green"}
                 />
               ) : selectedAnswer !== "" && selectedAnswer === option ? (
                 <Icon
                   name="closecircle"
-                  size={24}
+                  size={22}
                   style={styles.answerText}
                   color={"red"}
                 />
@@ -174,7 +188,6 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     alignItems: "center",
     borderColor: colorPalette.backgroundColor,
-    flexDirection: "row",
     borderRadius: 20,
     borderWidth: 0.5,
   },
@@ -182,7 +195,6 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     alignItems: "center",
     borderColor: colorPalette.backgroundColor,
-    flexDirection: "row",
     backgroundColor: "green",
     borderRadius: 20,
     borderWidth: 0.5,
@@ -191,7 +203,6 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     alignItems: "center",
     borderColor: colorPalette.backgroundColor,
-    flexDirection: "row",
     backgroundColor: "red",
     borderRadius: 20,
     borderWidth: 0.5,
@@ -209,8 +220,13 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   counter: {
+    color: "white",
+    textAlign: "center",
+    fontWeight: "bold",
+  },
+  counterContainer: {
     padding: 10,
     backgroundColor: "magenta",
-    borderRadius: 10,
+    borderRadius: 20,
   },
 });
