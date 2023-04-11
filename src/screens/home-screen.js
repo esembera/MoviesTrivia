@@ -69,7 +69,7 @@ const HomeScreen = ({ navigation }) => {
       </View>
       <View style={styles.buttonContainer}>
         <Button
-          onPress={() => navigation.navigate("Quiz")}
+          onPress={() => navigation.replace("Quiz")}
           _text={{
             color: colorPalette.componentTextColor,
           }}

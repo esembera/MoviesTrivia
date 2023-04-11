@@ -19,6 +19,8 @@ const QuizScreen = ({ navigation }) => {
 
   const intervalRef = useRef(null);
 
+  const progressPercentage = Math.floor((index / questions.length) * 100);
+
   useEffect(() => {
     if (selectedAnswer !== "") {
       if (
@@ -59,7 +61,7 @@ const QuizScreen = ({ navigation }) => {
 
   useEffect(() => {
     if (questions && questions.length > 0 && index + 1 > questions.length) {
-      navigation.navigate("Results", {
+      navigation.replace("Results", {
         answers: answers,
         points: points,
       });
@@ -78,7 +80,7 @@ const QuizScreen = ({ navigation }) => {
   }, [currentQuestion]);
 
   useEffect(() => {
-    if (!intervalRef.current) {
+    if (!intervalRef.current != 15) {
       setCounter(15);
     }
   }, [index]);
@@ -118,6 +120,21 @@ const QuizScreen = ({ navigation }) => {
         </Text>
       </View>
 
+      <View style={styles.progressBar}>
+        <Text
+          style={{
+            width: `${progressPercentage}%`,
+            backgroundColor: colorPalette.componentsBackgroundColor,
+            position: "absolute",
+            height: 10,
+            borderRadius: 12,
+            marginTop: 20,
+            right: 0,
+            left: 0,
+          }}
+        ></Text>
+      </View>
+
       <View style={styles.container}>
         <Text style={styles.questionText}>{currentQuestion?.question}</Text>
         <View style={styles.questionContainer}>
@@ -155,6 +172,36 @@ const QuizScreen = ({ navigation }) => {
             </Pressable>
           ))}
         </View>
+      </View>
+
+      <View
+        style={answerStatus === null ? null : styles.answerMessageContainer}
+      >
+        {answerStatus === null ? null : (
+          <Text style={answerStatus === null ? null : styles.answerMessage}>
+            {!!answerStatus ? "Correct Answer" : "Wrong Answer"}
+          </Text>
+        )}
+        {index + 1 >= questions.length ? (
+          <Pressable
+            onPress={() =>
+              navigation.replace("Results", {
+                points: points,
+                answers: answers,
+              })
+            }
+            style={styles.gameButton}
+          >
+            <Text style={{ color: "white" }}>Done</Text>
+          </Pressable>
+        ) : answerStatus === null ? null : (
+          <Pressable
+            onPress={() => setIndex(index + 1)}
+            style={styles.gameButton}
+          >
+            <Text style={{ color: "white" }}>Next Question</Text>
+          </Pressable>
+        )}
       </View>
     </SafeAreaView>
   );
@@ -220,13 +267,44 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   counter: {
-    color: "white",
+    color: colorPalette.componentTextColor,
     textAlign: "center",
     fontWeight: "bold",
   },
   counterContainer: {
     padding: 10,
-    backgroundColor: "magenta",
+    backgroundColor: colorPalette.componentsBackgroundColor,
     borderRadius: 20,
+  },
+  answerMessage: {
+    fontSize: 17,
+    textAlign: "center",
+    fontWeight: "bold",
+  },
+  answerMessageContainer: {
+    marginTop: 45,
+    backgroundColor: colorPalette.backgroundColor,
+    padding: 10,
+    borderRadius: 7,
+    height: 120,
+  },
+  gameButton: {
+    backgroundColor: "green",
+    padding: 10,
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginTop: 20,
+    borderRadius: 6,
+  },
+  progressBar: {
+    backgroundColor: "white",
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    height: 10,
+    borderRadius: 20,
+    justifyContent: "center",
+    marginTop: 20,
+    marginLeft: 10,
   },
 });

@@ -109,7 +109,8 @@ const styles = StyleSheet.create({
     paddingRight: 40,
   },
   container: {
-    margin: 7.5,
+    marginLeft: "auto",
+    marginRight: "auto",
   },
   topContainer: {
     display: "flex",

@@ -47,7 +47,6 @@ const MovieThumbnail = ({ imageURL, movieName, movieId }) => {
   function isInFavourites(id) {
     return favouriteMovies.includes(id);
   }
-
   //source url for movie thumbnail
   let sourceURL = `${MOVIESDB_IMAGE_URL}${imageURL}`;
 
