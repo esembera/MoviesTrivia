@@ -7,6 +7,7 @@ import { MOVIESDB_IMAGE_URL } from "@env";
 import MovieThumbnail from "../components/movieThumbnail";
 import SearchBar from "../components/searchBar";
 import Icon from "react-native-vector-icons/FontAwesome";
+import withTitle from "../components/withTitle";
 
 const DiscoverScreen = () => {
   const [movies, setMovies] = useState([]);

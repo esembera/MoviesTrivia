@@ -4,6 +4,7 @@ import { Button } from "native-base";
 import { colorPalette } from "../../assets/theme/color-palette";
 import { auth } from "../../firebase";
 import { FavouriteMoviesContext } from "../components/contexts/favouriteMovies.context";
+import withTitle from "../components/withTitle";
 
 const HomeScreen = ({ navigation }) => {
   const { favouriteMovies, resetFavouriteMoviesAfterLogOut } = useContext(

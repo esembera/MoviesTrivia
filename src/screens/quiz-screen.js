@@ -48,6 +48,8 @@ const QuizScreen = ({ navigation }) => {
         setCounter((counter) => counter - 1);
       }
       if (counter === 0) {
+        setAnswerStatus(false);
+        answers.push({ question: index + 1, answer: false });
         setIndex(index + 1);
         setCounter(15);
       }
@@ -182,7 +184,7 @@ const QuizScreen = ({ navigation }) => {
             {!!answerStatus ? "Correct Answer" : "Wrong Answer"}
           </Text>
         )}
-        {index + 1 >= questions.length ? (
+        {index + 1 >= questions.length && answerStatus !== null ? (
           <Pressable
             onPress={() =>
               navigation.replace("Results", {

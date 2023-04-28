@@ -6,6 +6,7 @@ import QuizScreen from "../screens/quiz-screen";
 import DiscoverScreen from "../screens/discover-screen";
 import ResultsScreen from "../screens/results-screen";
 import QuizSelection from "../screens/quiz-selection-screen";
+import withTitle from "../components/withTitle";
 
 const Stack = createStackNavigator();
 
@@ -16,32 +17,32 @@ function MyStack() {
     <Stack.Navigator>
       <Stack.Screen
         name="Login"
-        component={LoginScreen}
+        component={withTitle(LoginScreen)}
         options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Home"
-        component={HomeScreen}
+        component={withTitle(HomeScreen)}
         options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Discover"
-        component={DiscoverScreen}
+        component={withTitle(DiscoverScreen)}
         options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Quiz"
-        component={QuizScreen}
+        component={withTitle(QuizScreen)}
         options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Results"
-        component={ResultsScreen}
+        component={withTitle(ResultsScreen)}
         options={{ headerShown: false }}
       />
       <Stack.Screen
         name="QuizSelection"
-        component={QuizSelection}
+        component={withTitle(QuizSelection)}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

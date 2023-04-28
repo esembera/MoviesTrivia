@@ -82,7 +82,6 @@ const App = () => {
           <QuestionsContextProvider>
             <RootSiblingParent>
               <View style={styles.container} onLayout={onLayoutRootView}>
-                <Title />
                 <NavigationContainer theme={MyTheme}>
                   <MyStack />
                 </NavigationContainer>

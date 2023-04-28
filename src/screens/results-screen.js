@@ -54,7 +54,9 @@ const ResultsScreen = ({ navigation }) => {
             </View>
           )}
         />
-        <Text style={styles.scoreCardTitle}>{route.params.points}</Text>
+        <Text style={styles.scoreCardPoints}>
+          Points: {route.params.points}
+        </Text>
       </Pressable>
       <Pressable
         style={styles.button}
@@ -110,5 +112,12 @@ const styles = StyleSheet.create({
     marginRight: "auto",
     borderRadius: 10,
     alignItems: "center",
+  },
+  scoreCardPoints: {
+    color: colorPalette.componentTextColor,
+    fontSize: 15,
+    fontWeight: "500",
+    textAlign: "center",
+    margin: 10,
   },
 });
