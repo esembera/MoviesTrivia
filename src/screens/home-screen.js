@@ -4,30 +4,17 @@ import { Button } from "native-base";
 import { colorPalette } from "../../assets/theme/color-palette";
 import { auth } from "../../firebase";
 import { FavouriteMoviesContext } from "../components/contexts/favouriteMovies.context";
-import { getQuiz } from "../services/movie.service";
-import { QuestionsContext } from "../components/contexts/questionsContext";
 
 const HomeScreen = ({ navigation }) => {
   const { favouriteMovies, resetFavouriteMoviesAfterLogOut } = useContext(
     FavouriteMoviesContext
   );
 
-  const { setQuestions } = useContext(QuestionsContext);
-
   const handleSignOut = () => {
     auth.signOut().then(() => {
       navigation.replace("Login");
       resetFavouriteMoviesAfterLogOut();
     });
-  };
-
-  const callBackend = async () => {
-    const response = await getQuiz("/quiz-generator", favouriteMovies, 10);
-    setQuestions(response);
-    navigation.navigate("Quiz");
-    // response.forEach((question) => {
-    //   console.log(question);
-    // });
   };
 
   return (
@@ -57,19 +44,18 @@ const HomeScreen = ({ navigation }) => {
       </View>
       <View style={styles.buttonContainer}>
         <Button
-          onPress={() => callBackend()}
+          onPress={() => navigation.navigate("QuizSelection")}
           _text={{
             color: colorPalette.componentTextColor,
           }}
-          disabled={favouriteMovies.length < 3}
           size="lg"
         >
-          Start your custom quiz
+          Play quiz
         </Button>
       </View>
       <View style={styles.buttonContainer}>
         <Button
-          onPress={() => navigation.replace("Quiz")}
+          onPress={() => navigation.replace("")}
           _text={{
             color: colorPalette.componentTextColor,
           }}

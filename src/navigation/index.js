@@ -5,6 +5,7 @@ import LoginScreen from "../screens/login-screen";
 import QuizScreen from "../screens/quiz-screen";
 import DiscoverScreen from "../screens/discover-screen";
 import ResultsScreen from "../screens/results-screen";
+import QuizSelection from "../screens/quiz-selection-screen";
 
 const Stack = createStackNavigator();
 
@@ -36,6 +37,11 @@ function MyStack() {
       <Stack.Screen
         name="Results"
         component={ResultsScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="QuizSelection"
+        component={QuizSelection}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
