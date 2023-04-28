@@ -1,10 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Button } from "native-base";
 import { colorPalette } from "../../assets/theme/color-palette";
 import { auth } from "../../firebase";
 import { FavouriteMoviesContext } from "../components/contexts/favouriteMovies.context";
-import withTitle from "../components/withTitle";
 
 const HomeScreen = ({ navigation }) => {
   const { favouriteMovies, resetFavouriteMoviesAfterLogOut } = useContext(
@@ -56,7 +55,7 @@ const HomeScreen = ({ navigation }) => {
       </View>
       <View style={styles.buttonContainer}>
         <Button
-          onPress={() => navigation.replace("")}
+          onPress={() => navigation.navigate("Leaderboard")}
           _text={{
             color: colorPalette.componentTextColor,
           }}

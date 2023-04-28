@@ -4,8 +4,11 @@ import { Text } from "native-base";
 import { QuestionsContext } from "../components/contexts/questionsContext";
 import { colorPalette } from "../../assets/theme/color-palette";
 import Icon from "react-native-vector-icons/AntDesign";
+import { scoreHelper } from "../statics/score-helper";
 
 const QuizScreen = ({ navigation }) => {
+  const time = 15;
+
   const { questions } = useContext(QuestionsContext);
 
   const [points, setPoints] = useState(0);
@@ -13,7 +16,7 @@ const QuizScreen = ({ navigation }) => {
   const [answerStatus, setAnswerStatus] = useState(null);
   const [answers, setAnswers] = useState([]);
   const [selectedAnswer, setSelectedAnswer] = useState("");
-  const [counter, setCounter] = useState(15);
+  const [counter, setCounter] = useState(time);
   let [options, setOptions] = useState([]);
   const currentQuestion = questions[index];
 
@@ -27,7 +30,7 @@ const QuizScreen = ({ navigation }) => {
         currentQuestion &&
         selectedAnswer === currentQuestion?.correctAnswer
       ) {
-        setPoints((points) => points + 10);
+        setPoints((points) => points + 10 + scoreHelper[time - counter]);
         setAnswerStatus(true);
         answers.push({ question: index + 1, answer: true });
       } else {
@@ -51,7 +54,7 @@ const QuizScreen = ({ navigation }) => {
         setAnswerStatus(false);
         answers.push({ question: index + 1, answer: false });
         setIndex(index + 1);
-        setCounter(15);
+        setCounter(time);
       }
     };
     intervalRef.current = setTimeout(myInterval, 1000);
@@ -82,8 +85,8 @@ const QuizScreen = ({ navigation }) => {
   }, [currentQuestion]);
 
   useEffect(() => {
-    if (!intervalRef.current != 15) {
-      setCounter(15);
+    if (!intervalRef.current != time) {
+      setCounter(time);
     }
   }, [index]);
 

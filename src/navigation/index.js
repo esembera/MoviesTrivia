@@ -7,6 +7,7 @@ import DiscoverScreen from "../screens/discover-screen";
 import ResultsScreen from "../screens/results-screen";
 import QuizSelection from "../screens/quiz-selection-screen";
 import withTitle from "../components/withTitle";
+import LeaderboardScreen from "../screens/leaderboard-screen";
 
 const Stack = createStackNavigator();
 
@@ -43,6 +44,11 @@ function MyStack() {
       <Stack.Screen
         name="QuizSelection"
         component={withTitle(QuizSelection)}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Leaderboard"
+        component={withTitle(LeaderboardScreen)}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

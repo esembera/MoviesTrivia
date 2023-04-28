@@ -61,7 +61,7 @@ const ResultsScreen = ({ navigation }) => {
       <Pressable
         style={styles.button}
         onPress={() => {
-          navigation.replace("Home");
+          navigation.reset({ index: 0, routes: [{ name: "Home" }] });
         }}
       >
         <Text>Continue</Text>

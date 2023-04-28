@@ -5,12 +5,14 @@ import { colorPalette } from "../../assets/theme/color-palette";
 import { useContext } from "react";
 import { FavouriteMoviesContext } from "../components/contexts/favouriteMovies.context";
 import { QuestionsContext } from "../components/contexts/questionsContext";
-import Toast from "react-native-root-toast";
 import { getQuiz } from "../services/movie.service";
+import { useToast } from "native-base";
 
 const QuizSelection = ({ navigation }) => {
   const { favouriteMovies } = useContext(FavouriteMoviesContext);
   const { setQuestions } = useContext(QuestionsContext);
+
+  const toast = useToast();
 
   const callBackend = async (path) => {
     let response = null;
@@ -37,17 +39,14 @@ const QuizSelection = ({ navigation }) => {
           <Button
             onPress={() => {
               if (favouriteMovies.length < 3) {
-                Toast.show(
-                  "To access custom quiz you need to have at least 3 movies in your favourites list.",
-                  {
-                    duration: Toast.durations.SHORT,
-                    position: Toast.positions.CENTER,
-                    shadow: true,
-                    animation: true,
-                    hideOnPress: true,
-                    delay: 0,
-                  }
-                );
+                toast.show({
+                  title: "Error playing custom quiz",
+                  description:
+                    "You need at least 3 movies in your favourites list to generate a quiz",
+                  variant: "subtle",
+                  placement: "bottom",
+                  bg: colorPalette.componentsBackgroundColor,
+                });
               } else {
                 callBackend("/quiz-generator");
               }

@@ -3,17 +3,14 @@ import { StyleSheet, View } from "react-native";
 import React from "react";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-
 import { useState, useCallback, useEffect } from "react";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
-import Title from "./src/statics/title";
 import MyStack from "./src/navigation";
 import { NativeBaseProvider, extendTheme } from "native-base";
 import { colorPalette } from "./assets/theme/color-palette";
 import FavouriteMoviesContextProvider from "./src/components/contexts/favouriteMovies.context";
 import { AuthProvider } from "./src/components/contexts/auth.context";
 import QuestionsContextProvider from "./src/components/contexts/questionsContext";
-import { RootSiblingParent } from "react-native-root-siblings";
 
 let customFonts = {
   GVTimeRegular: require("./assets/fonts/GvTimeRegular.ttf"),
@@ -80,13 +77,11 @@ const App = () => {
       <AuthProvider>
         <FavouriteMoviesContextProvider>
           <QuestionsContextProvider>
-            <RootSiblingParent>
-              <View style={styles.container} onLayout={onLayoutRootView}>
-                <NavigationContainer theme={MyTheme}>
-                  <MyStack />
-                </NavigationContainer>
-              </View>
-            </RootSiblingParent>
+            <View style={styles.container} onLayout={onLayoutRootView}>
+              <NavigationContainer theme={MyTheme}>
+                <MyStack />
+              </NavigationContainer>
+            </View>
           </QuestionsContextProvider>
         </FavouriteMoviesContextProvider>
       </AuthProvider>
