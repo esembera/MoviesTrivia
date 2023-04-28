@@ -1,4 +1,4 @@
-import { MOVIESDB_BASE_URL, MOVIESDB_API_KEY, NGROK_URL } from "@env";
+import { MOVIESDB_BASE_URL, MOVIESDB_API_KEY } from "@env";
 
 //function which handles the sending of get request to tmdb api
 export const getMovies = async (url, optionalSettings) => {
@@ -11,11 +11,13 @@ export const getMovies = async (url, optionalSettings) => {
   return response;
 };
 
+//function that is sent to our custom backend to get the quiz (it can be a custom quzi or a premade genre quiz)
 export const getQuiz = async (url, movies, numberOfQuestions) => {
-  api_url = `https://84e7-95-168-121-16.ngrok-free.app/api${url}`;
+  api_url = `https://ecda-95-236-193-238.ngrok-free.app/api${url}`;
 
   console.log(api_url);
 
+  // if (url === "/quiz-generator") {
   let response = await fetch(api_url, {
     method: "POST",
     headers: {
@@ -28,6 +30,22 @@ export const getQuiz = async (url, movies, numberOfQuestions) => {
     }),
   });
   response = response.json();
+
+  // } else {
+  //   let response = await fetch(api_url, {
+  //     method: "POST",
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       numberOfQuestions: numberOfQuestions,
+  //     }),
+  //   });
+  //   response = response.json();
+  // }
+
+  console.log(response);
 
   return response;
 };

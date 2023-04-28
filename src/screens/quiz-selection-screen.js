@@ -6,13 +6,19 @@ import { useContext } from "react";
 import { FavouriteMoviesContext } from "../components/contexts/favouriteMovies.context";
 import { QuestionsContext } from "../components/contexts/questionsContext";
 import Toast from "react-native-root-toast";
+import { getQuiz } from "../services/movie.service";
 
 const QuizSelection = ({ navigation }) => {
   const { favouriteMovies } = useContext(FavouriteMoviesContext);
   const { setQuestions } = useContext(QuestionsContext);
 
-  const callBackend = async () => {
-    const response = await getQuiz("/quiz-generator", favouriteMovies, 10);
+  const callBackend = async (path) => {
+    let response = null;
+    if (path === "/quiz-generator") {
+      response = await getQuiz(path, favouriteMovies, 10);
+    } else {
+      response = await getQuiz(path, 10);
+    }
     setQuestions(response);
     navigation.navigate("Quiz");
     // response.forEach((question) => {
@@ -37,7 +43,7 @@ const QuizSelection = ({ navigation }) => {
                 }
               );
             } else {
-              callBackend();
+              callBackend("/quiz-generator");
             }
           }}
           _text={{
@@ -50,7 +56,7 @@ const QuizSelection = ({ navigation }) => {
       </View>
       <View style={styles.buttonContainer}>
         <Button
-          onPress={() => callBackend()}
+          onPress={() => callBackend("/horror")}
           _text={{
             color: colorPalette.componentTextColor,
           }}
@@ -61,7 +67,7 @@ const QuizSelection = ({ navigation }) => {
       </View>
       <View style={styles.buttonContainer}>
         <Button
-          onPress={() => callBackend()}
+          onPress={() => callBackend("/action")}
           _text={{
             color: colorPalette.componentTextColor,
           }}
@@ -72,7 +78,7 @@ const QuizSelection = ({ navigation }) => {
       </View>
       <View style={styles.buttonContainer}>
         <Button
-          onPress={() => callBackend()}
+          onPress={() => callBackend("/drama")}
           _text={{
             color: colorPalette.componentTextColor,
           }}
@@ -83,7 +89,7 @@ const QuizSelection = ({ navigation }) => {
       </View>
       <View style={styles.buttonContainer}>
         <Button
-          onPress={() => callBackend()}
+          onPress={() => callBackend("/thriller")}
           _text={{
             color: colorPalette.componentTextColor,
           }}
@@ -94,7 +100,7 @@ const QuizSelection = ({ navigation }) => {
       </View>
       <View style={styles.buttonContainer}>
         <Button
-          onPress={() => callBackend()}
+          onPress={() => callBackend("/animation")}
           _text={{
             color: colorPalette.componentTextColor,
           }}
@@ -105,13 +111,24 @@ const QuizSelection = ({ navigation }) => {
       </View>
       <View style={styles.buttonContainer}>
         <Button
-          onPress={() => callBackend()}
+          onPress={() => callBackend("/fantasy")}
           _text={{
             color: colorPalette.componentTextColor,
           }}
           size="lg"
         >
           Fantasy
+        </Button>
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button
+          onPress={() => callBackend("/comedy")}
+          _text={{
+            color: colorPalette.componentTextColor,
+          }}
+          size="lg"
+        >
+          Comedy
         </Button>
       </View>
     </View>

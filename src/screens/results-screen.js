@@ -54,6 +54,7 @@ const ResultsScreen = ({ navigation }) => {
             </View>
           )}
         />
+        <Text style={styles.scoreCardTitle}>{route.params.points}</Text>
       </Pressable>
       <Pressable
         style={styles.button}
