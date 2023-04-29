@@ -107,6 +107,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingTop: 10,
     paddingRight: 40,
+    fontWeight: "700",
   },
   container: {
     marginLeft: "auto",

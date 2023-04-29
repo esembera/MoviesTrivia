@@ -1,4 +1,4 @@
-import { createContext, useState, useMemo } from "react";
+import { createContext, useState } from "react";
 import React from "react";
 
 //context is used for allowing the data to be accessed from any of the app components

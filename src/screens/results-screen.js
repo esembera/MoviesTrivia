@@ -1,19 +1,57 @@
 import { StyleSheet, Text, SafeAreaView, View, Pressable } from "react-native";
 import React from "react";
-import { useRoute } from "@react-navigation/native";
 import { FlatList } from "react-native-gesture-handler";
 import { colorPalette } from "../../assets/theme/color-palette";
 import Icon from "react-native-vector-icons/AntDesign";
+import { db } from "../../firebase";
+import { auth } from "../../firebase";
 
-const ResultsScreen = ({ navigation }) => {
-  const route = useRoute();
-
+const ResultsScreen = ({ navigation, route }) => {
   let correctAnswer = 0;
   route.params.answers.forEach((q) => {
     if (q.answer === true) {
       correctAnswer++;
     }
   });
+
+  const currentUserEmail = auth.currentUser?.email;
+  // console.log(auth.currentUser.email);
+  const docRef = db.collection("leaderboards").doc(`${route.params.quizType}`);
+  docRef.get().then((doc) => {
+    if (doc.exists) {
+      // console.log(doc.data()[auth.currentUser?.email]);
+      if (doc.data()[auth.currentUser?.email]) {
+        if (doc.data()[auth.currentUser?.email] < route.params.points) {
+          // console.log(auth.currentUser.email);
+          db.collection("leaderboards")
+            .doc(route.params.quizType)
+            .set(
+              {
+                [auth.currentUser.email]: route.params.points,
+              },
+              { merge: true }
+            );
+        }
+      } else {
+        db.collection("leaderboards")
+          .doc(route.params.quizType)
+          .set(
+            {
+              [auth.currentUser.email]: route.params.points,
+            },
+            { merge: true }
+          );
+      }
+    } else {
+      db.collection("leaderboards")
+        .doc(route.params.quizType)
+        .set({
+          [auth.currentUser.email]: route.params.points,
+        });
+    }
+  });
+
+  // console.log(route.params.quizType);
 
   return (
     <SafeAreaView style={styles.container}>

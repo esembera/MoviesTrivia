@@ -60,7 +60,7 @@ const LoginScreen = () => {
     await docRef.get().then((doc) => {
       setFavouriteMovies(doc.data().favMovies);
     });
-    console.log(favouriteMovies);
+    // console.log(favouriteMovies);
   };
 
   return (

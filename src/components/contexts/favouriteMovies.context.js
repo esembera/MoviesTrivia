@@ -19,12 +19,12 @@ function FavouriteMoviesContextProvider({ children }) {
         docRef.update({ favMovies: newFavourites });
       }
     });
-    console.log(favouriteMovies);
+    // console.log(favouriteMovies);
   }
 
   function resetFavouriteMoviesAfterLogOut() {
     setFavouriteMovies([]);
-    console.log(favouriteMovies);
+    // console.log(favouriteMovies);
   }
 
   return (

@@ -22,7 +22,8 @@ const QuizSelection = ({ navigation }) => {
       response = await getQuiz(path, null, 10);
     }
     setQuestions(response);
-    navigation.navigate("Quiz");
+    // console.log(path.split("/")[1]);
+    navigation.navigate("Quiz", { quizType: path.split("/")[1] });
     // response.forEach((question) => {
     //   console.log(question);
     // });
@@ -40,9 +41,10 @@ const QuizSelection = ({ navigation }) => {
             onPress={() => {
               if (favouriteMovies.length < 3) {
                 toast.show({
-                  title: "Error playing custom quiz",
+                  title:
+                    "You need at least 3 movies in your favourites list to play a custom quiz",
                   description:
-                    "You need at least 3 movies in your favourites list to generate a quiz",
+                    "Go to Discover Movies to add movies to your favourites list.",
                   variant: "subtle",
                   placement: "bottom",
                   bg: colorPalette.componentsBackgroundColor,

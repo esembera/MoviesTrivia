@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, Button } from "react-native";
+import { StyleSheet, View, TextInput } from "react-native";
 import React, { useEffect, useState } from "react";
 import { colorPalette } from "../../assets/theme/color-palette";
 import { getMovies } from "../services/movie.service";

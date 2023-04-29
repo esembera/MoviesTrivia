@@ -6,8 +6,10 @@ import { colorPalette } from "../../assets/theme/color-palette";
 import Icon from "react-native-vector-icons/AntDesign";
 import { scoreHelper } from "../statics/score-helper";
 
-const QuizScreen = ({ navigation }) => {
+const QuizScreen = ({ navigation, route }) => {
   const time = 15;
+  const { quizType } = route.params;
+  // console.log(quizType);
 
   const { questions } = useContext(QuestionsContext);
 
@@ -193,6 +195,7 @@ const QuizScreen = ({ navigation }) => {
               navigation.replace("Results", {
                 points: points,
                 answers: answers,
+                quizType: quizType,
               })
             }
             style={styles.gameButton}

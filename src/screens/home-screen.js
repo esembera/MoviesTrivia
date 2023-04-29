@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Button } from "native-base";
 import { colorPalette } from "../../assets/theme/color-palette";
 import { auth } from "../../firebase";
@@ -19,8 +19,12 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.welcomeText}>Welcome {auth.currentUser?.email}</Text>
-      <View style={styles.buttonContainer}>
+      <View style={styles.insideContainerTop}>
+        <Text style={styles.welcomeText}>
+          Welcome {auth.currentUser?.email}
+        </Text>
+      </View>
+      {/* <View style={styles.buttonContainer}>
         <Button
           onPress={() => callBackend()}
           _text={{
@@ -30,7 +34,7 @@ const HomeScreen = ({ navigation }) => {
         >
           Backend Test Button
         </Button>
-      </View>
+      </View> */}
       <View style={styles.buttonContainer}>
         <Button
           onPress={() => navigation.navigate("Discover")}
@@ -95,5 +99,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: colorPalette.textColor,
     fontWeight: "700",
+  },
+  insideContainerTop: {
+    height: "20%",
+    marginVertical: 10,
   },
 });
