@@ -143,6 +143,17 @@ const QuizSelection = ({ navigation }) => {
             Comedy
           </Button>
         </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            onPress={() => callBackend("/romance")}
+            _text={{
+              color: colorPalette.componentTextColor,
+            }}
+            size="lg"
+          >
+            Romance
+          </Button>
+        </View>
       </View>
       {loading && (
         <View style={styles.spinnerContainer}>

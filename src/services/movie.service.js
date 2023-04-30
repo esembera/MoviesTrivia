@@ -13,7 +13,7 @@ export const getMovies = async (url, optionalSettings) => {
 
 //function that is sent to our custom backend to get the quiz (it can be a custom quzi or a premade genre quiz)
 export const getQuiz = async (url, movies, numberOfQuestions) => {
-  api_url = `https://18f8-95-236-193-238.ngrok-free.app/api${url}`;
+  api_url = `https://6d91-95-236-193-238.ngrok-free.app/api${url}`;
 
   // console.log(api_url);
 

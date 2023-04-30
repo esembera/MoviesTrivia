@@ -6,4 +6,5 @@ export const quizTypes = [
   "comedy",
   "action",
   "horror",
+  "romance",
 ];

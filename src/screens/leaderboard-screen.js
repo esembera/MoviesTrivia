@@ -57,7 +57,7 @@ const LeaderboardScreen = () => {
               color={colorPalette.textColor}
               onPress={() => {
                 if (i === 0) {
-                  setI(6);
+                  setI(7);
                 } else {
                   setI(i - 1);
                 }
@@ -72,7 +72,7 @@ const LeaderboardScreen = () => {
               style={styles.icon}
               color={colorPalette.textColor}
               onPress={() => {
-                if (i === 6) {
+                if (i === 7) {
                   setI(0);
                 } else {
                   setI(i + 1);

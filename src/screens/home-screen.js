@@ -65,7 +65,18 @@ const HomeScreen = ({ navigation }) => {
           }}
           size="lg"
         >
-          View leaderboard
+          Leaderboard
+        </Button>
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button
+          onPress={() => navigation.navigate("Favourites")}
+          _text={{
+            color: colorPalette.componentTextColor,
+          }}
+          size="lg"
+        >
+          Your favourite movies
         </Button>
       </View>
       <View style={styles.buttonContainer}>
