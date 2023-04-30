@@ -6,11 +6,14 @@ import { FlatList, HStack, Spacer, Box } from "native-base";
 import { colorPalette } from "../../assets/theme/color-palette";
 import { useState } from "react";
 import Icon from "react-native-vector-icons/AntDesign";
+import { Spinner } from "native-base";
 
 const LeaderboardScreen = () => {
   const [i, setI] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const getLeaderboards = async (i) => {
+    setLoading(true);
     let data = null;
     const docRef = db.collection("leaderboards").doc(quizTypes[i]);
     await docRef.get().then((doc) => {
@@ -18,6 +21,7 @@ const LeaderboardScreen = () => {
       // console.log(doc.data());
       data = doc.data();
     });
+    setLoading(false);
     // console.log(data);
     return data;
   };
@@ -114,6 +118,11 @@ const LeaderboardScreen = () => {
           />
         )}
       </View>
+      {loading && (
+        <View style={styles.spinnerContainer}>
+          <Spinner size="lg" color={colorPalette.textColor} />
+        </View>
+      )}
     </View>
   );
 };
@@ -187,5 +196,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+  },
+  spinnerContainer: {
+    position: "absolute",
+    top: "80%",
+    left: "50%",
+    right: "50%",
   },
 });

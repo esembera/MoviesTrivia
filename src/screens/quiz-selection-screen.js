@@ -1,32 +1,31 @@
 import { StyleSheet, View, Text } from "react-native";
 import { Button } from "native-base";
-import React from "react";
+import React, { useContext, useState } from "react";
 import { colorPalette } from "../../assets/theme/color-palette";
-import { useContext } from "react";
 import { FavouriteMoviesContext } from "../components/contexts/favouriteMovies.context";
 import { QuestionsContext } from "../components/contexts/questionsContext";
 import { getQuiz } from "../services/movie.service";
 import { useToast } from "native-base";
+import { Spinner, HStack, Heading } from "native-base";
 
 const QuizSelection = ({ navigation }) => {
   const { favouriteMovies } = useContext(FavouriteMoviesContext);
   const { setQuestions } = useContext(QuestionsContext);
+  const [loading, setLoading] = useState(false);
 
   const toast = useToast();
 
   const callBackend = async (path) => {
+    setLoading(true);
     let response = null;
     if (path === "/quiz-generator") {
       response = await getQuiz(path, favouriteMovies, 10);
     } else {
       response = await getQuiz(path, null, 10);
     }
+    setLoading(false);
     setQuestions(response);
-    // console.log(path.split("/")[1]);
     navigation.navigate("Quiz", { quizType: path.split("/")[1] });
-    // response.forEach((question) => {
-    //   console.log(question);
-    // });
   };
   return (
     <View style={styles.container}>
@@ -145,6 +144,11 @@ const QuizSelection = ({ navigation }) => {
           </Button>
         </View>
       </View>
+      {loading && (
+        <View style={styles.spinnerContainer}>
+          <Spinner size="lg" color={colorPalette.textColor} />
+        </View>
+      )}
     </View>
   );
 };
@@ -194,5 +198,11 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     flexDirection: "row",
     justifyContent: "center",
+  },
+  spinnerContainer: {
+    position: "absolute",
+    top: "80%",
+    left: "50%",
+    right: "50%",
   },
 });

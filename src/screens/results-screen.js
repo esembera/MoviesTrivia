@@ -14,15 +14,27 @@ const ResultsScreen = ({ navigation, route }) => {
     }
   });
 
-  const currentUserEmail = auth.currentUser?.email;
   // console.log(auth.currentUser.email);
-  const docRef = db.collection("leaderboards").doc(`${route.params.quizType}`);
-  docRef.get().then((doc) => {
-    if (doc.exists) {
-      // console.log(doc.data()[auth.currentUser?.email]);
-      if (doc.data()[auth.currentUser?.email]) {
-        if (doc.data()[auth.currentUser?.email] < route.params.points) {
-          // console.log(auth.currentUser.email);
+  if (route.params.quizType !== "quiz-generator") {
+    const docRef = db
+      .collection("leaderboards")
+      .doc(`${route.params.quizType}`);
+    docRef.get().then((doc) => {
+      if (doc.exists) {
+        // console.log(doc.data()[auth.currentUser?.email]);
+        if (doc.data()[auth.currentUser?.email]) {
+          if (doc.data()[auth.currentUser?.email] < route.params.points) {
+            // console.log(auth.currentUser.email);
+            db.collection("leaderboards")
+              .doc(route.params.quizType)
+              .set(
+                {
+                  [auth.currentUser.email]: route.params.points,
+                },
+                { merge: true }
+              );
+          }
+        } else {
           db.collection("leaderboards")
             .doc(route.params.quizType)
             .set(
@@ -35,21 +47,12 @@ const ResultsScreen = ({ navigation, route }) => {
       } else {
         db.collection("leaderboards")
           .doc(route.params.quizType)
-          .set(
-            {
-              [auth.currentUser.email]: route.params.points,
-            },
-            { merge: true }
-          );
+          .set({
+            [auth.currentUser.email]: route.params.points,
+          });
       }
-    } else {
-      db.collection("leaderboards")
-        .doc(route.params.quizType)
-        .set({
-          [auth.currentUser.email]: route.params.points,
-        });
-    }
-  });
+    });
+  }
 
   // console.log(route.params.quizType);
 

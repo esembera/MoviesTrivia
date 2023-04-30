@@ -1,10 +1,11 @@
 import { Pressable, SafeAreaView, StyleSheet, View } from "react-native";
 import React, { useContext, useEffect, useState, useRef } from "react";
-import { Text } from "native-base";
+import { Fade, Text } from "native-base";
 import { QuestionsContext } from "../components/contexts/questionsContext";
 import { colorPalette } from "../../assets/theme/color-palette";
 import Icon from "react-native-vector-icons/AntDesign";
 import { scoreHelper } from "../statics/score-helper";
+import FadeInAnimation from "../../assets/animations/fadeInAnimation";
 
 const QuizScreen = ({ navigation, route }) => {
   const time = 15;
@@ -160,19 +161,23 @@ const QuizScreen = ({ navigation, route }) => {
             >
               {selectedAnswer === option &&
               option === currentQuestion.correctAnswer ? (
-                <Icon
-                  name="checkcircle"
-                  size={22}
-                  style={styles.answerText}
-                  color={"green"}
-                />
+                <FadeInAnimation>
+                  <Icon
+                    name="checkcircle"
+                    size={22}
+                    style={styles.answerText}
+                    color={"green"}
+                  />
+                </FadeInAnimation>
               ) : selectedAnswer !== "" && selectedAnswer === option ? (
-                <Icon
-                  name="closecircle"
-                  size={22}
-                  style={styles.answerText}
-                  color={"red"}
-                />
+                <FadeInAnimation>
+                  <Icon
+                    name="closecircle"
+                    size={22}
+                    style={styles.answerText}
+                    color={"red"}
+                  />
+                </FadeInAnimation>
               ) : (
                 <Text style={styles.answerText}>{option}</Text>
               )}
@@ -185,30 +190,36 @@ const QuizScreen = ({ navigation, route }) => {
         style={answerStatus === null ? null : styles.answerMessageContainer}
       >
         {answerStatus === null ? null : (
-          <Text style={answerStatus === null ? null : styles.answerMessage}>
-            {!!answerStatus ? "Correct Answer" : "Wrong Answer"}
-          </Text>
+          <FadeInAnimation>
+            <Text style={answerStatus === null ? null : styles.answerMessage}>
+              {!!answerStatus ? "Correct Answer" : "Wrong Answer"}
+            </Text>
+          </FadeInAnimation>
         )}
         {index + 1 >= questions.length && answerStatus !== null ? (
-          <Pressable
-            onPress={() =>
-              navigation.replace("Results", {
-                points: points,
-                answers: answers,
-                quizType: quizType,
-              })
-            }
-            style={styles.gameButton}
-          >
-            <Text style={{ color: "white" }}>Done</Text>
-          </Pressable>
+          <FadeInAnimation>
+            <Pressable
+              onPress={() =>
+                navigation.replace("Results", {
+                  points: points,
+                  answers: answers,
+                  quizType: quizType,
+                })
+              }
+              style={styles.gameButton}
+            >
+              <Text style={{ color: "white" }}>Done</Text>
+            </Pressable>
+          </FadeInAnimation>
         ) : answerStatus === null ? null : (
-          <Pressable
-            onPress={() => setIndex(index + 1)}
-            style={styles.gameButton}
-          >
-            <Text style={{ color: "white" }}>Next Question</Text>
-          </Pressable>
+          <FadeInAnimation>
+            <Pressable
+              onPress={() => setIndex(index + 1)}
+              style={styles.gameButton}
+            >
+              <Text style={{ color: "white" }}>Next Question</Text>
+            </Pressable>
+          </FadeInAnimation>
         )}
       </View>
     </SafeAreaView>
