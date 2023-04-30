@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import Title from "../statics/title";
+import Title from "./title";
 import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
 

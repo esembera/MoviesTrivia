@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useEffect } from "react";
 import { db } from "../../firebase";
-import { quizTypes } from "../statics/quizTypes";
+import { quizTypes } from "../components/helpers/quiz-types-helper";
 import { FlatList, HStack, Spacer, Box } from "native-base";
 import { colorPalette } from "../../assets/theme/color-palette";
 import { useState } from "react";

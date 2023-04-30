@@ -1,10 +1,10 @@
 import { Pressable, SafeAreaView, StyleSheet, View } from "react-native";
 import React, { useContext, useEffect, useState, useRef } from "react";
-import { Fade, Text } from "native-base";
+import { Text } from "native-base";
 import { QuestionsContext } from "../components/contexts/questionsContext";
 import { colorPalette } from "../../assets/theme/color-palette";
 import Icon from "react-native-vector-icons/AntDesign";
-import { scoreHelper } from "../statics/score-helper";
+import { scoreHelper } from "../components/helpers/score-helper";
 import FadeInAnimation from "../../assets/animations/fadeInAnimation";
 
 const QuizScreen = ({ navigation, route }) => {

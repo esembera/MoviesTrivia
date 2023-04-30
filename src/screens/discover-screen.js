@@ -1,7 +1,7 @@
 import { View, StyleSheet, FlatList } from "react-native";
 import React, { useEffect, useState } from "react";
 import { getMovies } from "../services/movie.service";
-import { genres } from "../statics/genres.json";
+import { genres } from "../components/statics/genres.json";
 import { Text } from "native-base";
 import { MOVIESDB_IMAGE_URL } from "@env";
 import MovieThumbnail from "../components/movieThumbnail";
@@ -11,6 +11,8 @@ import Icon from "react-native-vector-icons/FontAwesome";
 const DiscoverScreen = () => {
   const [movies, setMovies] = useState([]);
   const [isSearchVisible, setSearchVisible] = useState(false);
+
+  console.log(genres);
 
   const toggleSearch = () => {
     setSearchVisible(!isSearchVisible);
