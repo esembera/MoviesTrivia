@@ -13,6 +13,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   const [currentUser, setCurrentUser] = useState();
+  const [currentUsername, setCurrentUsername] = useState("");
   function signUp(email, password) {
     return auth.createUserWithEmailAndPassword(email, password);
   }
@@ -21,7 +22,15 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ currentUser, signUp, logIn }}>
+    <AuthContext.Provider
+      value={{
+        currentUser,
+        signUp,
+        logIn,
+        currentUsername,
+        setCurrentUsername,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -13,11 +13,12 @@ import { useNavigation } from "@react-navigation/core";
 import { AuthContext } from "../components/contexts/auth.context";
 import { FavouriteMoviesContext } from "../components/contexts/favouriteMovies.context";
 
-const LoginScreen = () => {
+const RegisterScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { logIn, setCurrentUsername } = useContext(AuthContext);
-  const { setFavouriteMovies } = useContext(FavouriteMoviesContext);
+  const [username, setUsername] = useState("");
+  const { signUp, setCurrentUsername } = useContext(AuthContext);
+  const { favouriteMovies } = useContext(FavouriteMoviesContext);
 
   const navigation = useNavigation();
 
@@ -32,30 +33,17 @@ const LoginScreen = () => {
     return unsubscribe;
   }, []);
 
-  const handleLogIn = () => {
-    logIn(email, password)
+  const handleSignUp = () => {
+    signUp(email, password)
       .then((userCredentials) => {
-        const user = userCredentials.user;
-        console.log("Signed in with user:", user.email, user.uid);
-        getFavouriteMovies(user.uid);
-        getUsername(user.uid);
+        console.log("Registered with user:", userCredentials.user.email);
+        db.collection("users").doc(userCredentials.user.uid).set({
+          favMovies: favouriteMovies,
+          username: username,
+        });
       })
       .catch((error) => alert(error.message));
-  };
-
-  const getFavouriteMovies = async (uid) => {
-    const docRef = db.collection("users").doc(`${uid}`);
-    await docRef.get().then((doc) => {
-      setFavouriteMovies(doc.data().favMovies);
-    });
-    // console.log(favouriteMovies);
-  };
-
-  const getUsername = async (uid) => {
-    const docRef = db.collection("users").doc(`${uid}`);
-    await docRef.get().then((doc) => {
-      setCurrentUsername(doc.data().username);
-    });
+    setCurrentUsername(username);
   };
 
   return (
@@ -64,13 +52,21 @@ const LoginScreen = () => {
         Welcome to MovieTrivia! {"\n"}
         {"\n"}
       </Text>
-      <Text style={styles.welcomeText}>Please login to continue.{"\n"}</Text>
+      <Text style={styles.welcomeText}>Fill the form to register.{"\n"}</Text>
       <View style={styles.inputContainer}>
+        <TextInput
+          placeholder="Username"
+          value={username}
+          onChangeText={(text) => setUsername(text)}
+          style={styles.input}
+          autoCapitalize="none"
+        />
         <TextInput
           placeholder="Email"
           value={email}
           onChangeText={(text) => setEmail(text)}
           style={styles.input}
+          autoCapitalize="none"
         />
         <TextInput
           placeholder="Password"
@@ -81,20 +77,18 @@ const LoginScreen = () => {
         />
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={handleLogIn} style={styles.button}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-          <Text style={styles.buttonOutlineText}>
-            Don't have an account? Sign up here.
-          </Text>
+        <TouchableOpacity
+          onPress={handleSignUp}
+          style={[styles.button, styles.buttonOutline]}
+        >
+          <Text style={styles.buttonOutlineText}>Register</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
   );
 };
 
-export default LoginScreen;
+export default RegisterScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -138,10 +132,6 @@ const styles = StyleSheet.create({
   },
   buttonOutlineText: {
     color: colorPalette.textColor,
-    textAlign: "center",
-    textDecorationStyle: "solid",
-    textDecorationLine: "underline",
-    marginTop: 5,
     fontWeight: "700",
     fontSize: 16,
   },

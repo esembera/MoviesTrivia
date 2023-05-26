@@ -12,7 +12,7 @@ const DiscoverScreen = () => {
   const [movies, setMovies] = useState([]);
   const [isSearchVisible, setSearchVisible] = useState(false);
 
-  console.log(genres);
+  // console.log(genres);
 
   const toggleSearch = () => {
     setSearchVisible(!isSearchVisible);

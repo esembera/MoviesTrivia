@@ -1,12 +1,14 @@
 import { StyleSheet, Text, SafeAreaView, View, Pressable } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { FlatList } from "react-native-gesture-handler";
 import { colorPalette } from "../../assets/theme/color-palette";
 import Icon from "react-native-vector-icons/AntDesign";
 import { db } from "../../firebase";
-import { auth } from "../../firebase";
+import { AuthContext } from "../components/contexts/auth.context";
 
 const ResultsScreen = ({ navigation, route }) => {
+  const { currentUsername } = useContext(AuthContext);
+
   let correctAnswer = 0;
   route.params.answers.forEach((q) => {
     if (q.answer === true) {
@@ -22,14 +24,14 @@ const ResultsScreen = ({ navigation, route }) => {
     docRef.get().then((doc) => {
       if (doc.exists) {
         // console.log(doc.data()[auth.currentUser?.email]);
-        if (doc.data()[auth.currentUser?.email]) {
-          if (doc.data()[auth.currentUser?.email] < route.params.points) {
+        if (doc.data()[currentUsername]) {
+          if (doc.data()[currentUsername] < route.params.points) {
             // console.log(auth.currentUser.email);
             db.collection("leaderboards")
               .doc(route.params.quizType)
               .set(
                 {
-                  [auth.currentUser.email]: route.params.points,
+                  [currentUsername]: route.params.points,
                 },
                 { merge: true }
               );
@@ -39,7 +41,7 @@ const ResultsScreen = ({ navigation, route }) => {
             .doc(route.params.quizType)
             .set(
               {
-                [auth.currentUser.email]: route.params.points,
+                [currentUsername]: route.params.points,
               },
               { merge: true }
             );
@@ -48,7 +50,7 @@ const ResultsScreen = ({ navigation, route }) => {
         db.collection("leaderboards")
           .doc(route.params.quizType)
           .set({
-            [auth.currentUser.email]: route.params.points,
+            [currentUsername]: route.params.points,
           });
       }
     });
