@@ -50,6 +50,8 @@ const MovieThumbnail = ({ imageURL, movieName, movieId }) => {
   //source url for movie thumbnail
   let sourceURL = `${MOVIESDB_IMAGE_URL}${imageURL}`;
 
+  // console.log(`${movieName} - ${sourceURL}`);
+
   return (
     <AddedOrRemovedContext.Provider
       value={{ isAdded, setIsAdded, isRemoved, setIsRemoved }}
