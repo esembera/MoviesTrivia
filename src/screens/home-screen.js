@@ -26,17 +26,6 @@ const HomeScreen = ({ navigation }) => {
       <View style={styles.insideContainerTop}>
         <Text style={styles.welcomeText}>Welcome {currentUsername}!</Text>
       </View>
-      {/* <View style={styles.buttonContainer}>
-        <Button
-          onPress={() => callBackend()}
-          _text={{
-            color: colorPalette.componentTextColor,
-          }}
-          size="lg"
-        >
-          Backend Test Button
-        </Button>
-      </View> */}
       <View style={styles.buttonContainer}>
         <Button
           onPress={() => navigation.navigate("Discover")}

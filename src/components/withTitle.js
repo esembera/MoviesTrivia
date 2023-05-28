@@ -1,8 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import Title from "./title";
-import { useNavigation } from "@react-navigation/native";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 const withTitle = (WrappedComponent) => {
   const TitleWrapper = (props) => {

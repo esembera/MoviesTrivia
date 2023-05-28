@@ -1,5 +1,4 @@
-import { createContext, useState } from "react";
-import React from "react";
+import React, { createContext, useState } from "react";
 
 //context is used for allowing the data to be accessed from any of the app components
 export const QuestionsContext = createContext([]);
