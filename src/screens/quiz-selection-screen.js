@@ -1,12 +1,10 @@
 import { StyleSheet, View, Text } from "react-native";
-import { Button } from "native-base";
 import React, { useContext, useState } from "react";
 import { colorPalette } from "../../assets/theme/color-palette";
 import { FavouriteMoviesContext } from "../components/contexts/favouriteMovies.context";
 import { QuestionsContext } from "../components/contexts/questionsContext";
 import { getQuiz } from "../services/movie.service";
-import { useToast } from "native-base";
-import { Spinner, HStack, Heading } from "native-base";
+import { useToast, Spinner, Button } from "native-base";
 
 const QuizSelection = ({ navigation }) => {
   const { favouriteMovies } = useContext(FavouriteMoviesContext);

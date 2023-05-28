@@ -1,12 +1,10 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { db } from "../../firebase";
 import { quizTypes } from "../components/helpers/quiz-types-helper";
-import { FlatList, HStack, Spacer, Box } from "native-base";
+import { FlatList, HStack, Spacer, Box, Spinner } from "native-base";
 import { colorPalette } from "../../assets/theme/color-palette";
-import { useState } from "react";
 import Icon from "react-native-vector-icons/AntDesign";
-import { Spinner } from "native-base";
 
 const LeaderboardScreen = () => {
   const [i, setI] = useState(0);

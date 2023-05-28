@@ -1,6 +1,6 @@
 import { StyleSheet, Text, SafeAreaView, View, Pressable } from "react-native";
 import React, { useContext } from "react";
-import { FlatList } from "react-native-gesture-handler";
+import { FlatList } from "native-base";
 import { colorPalette } from "../../assets/theme/color-palette";
 import Icon from "react-native-vector-icons/AntDesign";
 import { db } from "../../firebase";
