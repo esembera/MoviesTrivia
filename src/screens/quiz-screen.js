@@ -155,6 +155,9 @@ const QuizScreen = ({ navigation, route }) => {
                   ? styles.correctAnswer
                   : selectedAnswer !== "" && selectedAnswer === option
                   ? styles.wrongAnswer
+                  : selectedAnswer !== "" &&
+                    option === currentQuestion.correctAnswer
+                  ? styles.correctAnswerWronglyAnswered
                   : styles.answerContainer
               }
               onPress={() => selectedAnswer === "" && setSelectedAnswer(option)}
@@ -256,6 +259,13 @@ const styles = StyleSheet.create({
     borderColor: colorPalette.backgroundColor,
     borderRadius: 20,
     borderWidth: 0.5,
+  },
+  correctAnswerWronglyAnswered: {
+    marginVertical: 10,
+    alignItems: "center",
+    borderColor: "green",
+    borderRadius: 20,
+    borderWidth: 2,
   },
   correctAnswer: {
     marginVertical: 10,
