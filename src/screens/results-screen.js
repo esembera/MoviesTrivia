@@ -59,7 +59,7 @@ const ResultsScreen = ({ navigation, route }) => {
   // console.log(route.params.quizType);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} accessible={true}>
       <View style={styles.resultContainer}>
         <Text>Your Results</Text>
       </View>
@@ -106,6 +106,7 @@ const ResultsScreen = ({ navigation, route }) => {
         onPress={() => {
           navigation.reset({ index: 0, routes: [{ name: "Home" }] });
         }}
+        testID="continueBtn"
       >
         <Text>Continue</Text>
       </Pressable>

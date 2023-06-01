@@ -41,7 +41,7 @@ const LeaderboardScreen = () => {
 
   // getLeaderboards().then((data) => console.log(data));
   return (
-    <View style={styles.container}>
+    <View style={styles.container} accessible={true}>
       <View style={styles.parentContainer}>
         <View style={styles.insideContainerTop}>
           <Text style={styles.headingText}>Top 10 leaderboards by genre</Text>
@@ -93,6 +93,7 @@ const LeaderboardScreen = () => {
       <View style={styles.insideContainer}>
         {leaderboardsData && (
           <FlatList
+            accessible={true}
             data={leaderboardsData}
             renderItem={({ item }) => (
               <Box
@@ -102,11 +103,18 @@ const LeaderboardScreen = () => {
                 style={{ margin: 5 }}
               >
                 <HStack space={2} alignItems="center">
-                  <Text style={{ color: colorPalette.textColor }}>
+                  <Text
+                    style={{ color: colorPalette.textColor }}
+                    testID={item[0]}
+                  >
                     {item[0]}
                   </Text>
                   <Spacer />
-                  <Text style={{ color: colorPalette.textColor }}>
+                  <Text
+                    style={{ color: colorPalette.textColor }}
+                    accessibilityLabel={item[0]}
+                    accessibilityValue={{ text: item[1].toString() }}
+                  >
                     {item[1]}
                   </Text>
                 </HStack>

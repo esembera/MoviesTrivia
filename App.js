@@ -11,10 +11,15 @@ import { colorPalette } from "./assets/theme/color-palette";
 import FavouriteMoviesContextProvider from "./src/components/contexts/favouriteMovies.context";
 import { AuthProvider } from "./src/components/contexts/auth.context";
 import QuestionsContextProvider from "./src/components/contexts/questionsContext";
+import { LogBox } from "react-native";
 
 let customFonts = {
   GVTimeRegular: require("./assets/fonts/GvTimeRegular.ttf"),
 };
+
+LogBox.ignoreLogs([
+  "Require cycle: src/components/movieThumbnail.js -> assets/animations/fadeInFadeOutAnimation.js -> src/components/movieThumbnail.js",
+]);
 
 SplashScreen.preventAutoHideAsync();
 

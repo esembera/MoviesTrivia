@@ -9,9 +9,9 @@ const withTitle = (WrappedComponent) => {
     const route = useRoute();
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1 }} accessible={true}>
         <Title navigation={navigation} route={route} />
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1 }} testID="outerContainer">
           <WrappedComponent {...props} />
         </View>
       </View>

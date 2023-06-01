@@ -27,12 +27,13 @@ const UserFavouriteMoviesScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <View>
+    <View accessible={true}>
       <View>
         <Text style={styles.topText}>Your favourite movies</Text>
       </View>
       {favouriteMovies.length !== 0 && (
         <FlatList
+          accessible={true}
           numColumns={3}
           data={movies}
           style={styles.container}
@@ -42,6 +43,7 @@ const UserFavouriteMoviesScreen = ({ navigation }) => {
               imageURL={item.backdrop_path}
               movieName={item.title}
               movieId={item.id}
+              testID={movies.findIndex((m) => m == item).toString()}
             />
           )}
         ></FlatList>

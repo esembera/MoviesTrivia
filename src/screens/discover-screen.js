@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { getMovies } from "../services/movie.service";
 import { genres } from "../components/statics/genres.json";
 import { Text } from "native-base";
-import { MOVIESDB_IMAGE_URL } from "@env";
 import MovieThumbnail from "../components/movieThumbnail";
 import SearchBar from "../components/searchBar";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -56,10 +55,6 @@ const DiscoverScreen = () => {
       tempMovies.push(response.results[i]);
     }
     setMovies(tempMovies);
-
-    const images = response.results.map((data) => {
-      `${MOVIESDB_IMAGE_URL}${data.backdrop_path}`;
-    });
   };
 
   const handleSearchParent = (searchedMovies) => {
@@ -74,8 +69,12 @@ const DiscoverScreen = () => {
     }
   };
 
+  // console.log(
+  //   movies.forEach((m1) => console.log(movies.findIndex((m2) => m1 == m2)))
+  // );
+
   return (
-    <View>
+    <View accessible={true}>
       <View style={styles.topContainer}>
         <Text style={styles.topText}>Find your favourite movies</Text>
         <Icon
@@ -87,12 +86,14 @@ const DiscoverScreen = () => {
       </View>
       {isSearchVisible && <SearchBar handleSearchParent={handleSearchParent} />}
       <FlatList
+        accessible={true}
         numColumns={3}
         data={movies}
         style={styles.container}
         scrollIndicatorInsets={{ right: 1 }}
         renderItem={({ item }) => (
           <MovieThumbnail
+            testID={movies.findIndex((m) => m == item).toString()}
             imageURL={item.backdrop_path}
             movieName={item.title}
             movieId={item.id}

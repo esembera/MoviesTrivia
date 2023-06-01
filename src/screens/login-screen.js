@@ -59,7 +59,11 @@ const LoginScreen = () => {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior="padding"
+      accessible={true}
+    >
       <Text style={styles.welcomeText}>
         Welcome to MovieTrivia! {"\n"}
         {"\n"}
@@ -67,6 +71,7 @@ const LoginScreen = () => {
       <Text style={styles.welcomeText}>Please login to continue.{"\n"}</Text>
       <View style={styles.inputContainer}>
         <TextInput
+          testID="emailField"
           placeholder="Email"
           value={email}
           onChangeText={(text) => setEmail(text)}
@@ -74,6 +79,7 @@ const LoginScreen = () => {
           autoCapitalize="none"
         />
         <TextInput
+          testID="passwordField"
           placeholder="Password"
           value={password}
           onChangeText={(text) => setPassword(text)}
@@ -81,11 +87,16 @@ const LoginScreen = () => {
           secureTextEntry
         />
       </View>
-      <View style={styles.buttonContainer}>
+      <View style={styles.buttonContainer} accessible={true}>
         <TouchableOpacity onPress={handleLogIn} style={styles.button}>
-          <Text style={styles.buttonText}>Login</Text>
+          <Text style={styles.buttonText} testID="loginBtn">
+            Login
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Register")}
+          testID="goToSignUp"
+        >
           <Text style={styles.buttonOutlineText}>
             Don't have an account? Sign up here.
           </Text>

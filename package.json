@@ -7,7 +7,12 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "eas-build-pre-install": "./eas-hooks/eas-build-pre-install.sh",
-    "eas-build-on-success": "./eas-hooks/eas-build-on-success.sh"
+    "eas-build-on-success": "./eas-hooks/eas-build-on-success.sh",
+    "detox_build": "npx detox build -c ios.release",
+    "detox_test": "npx detox test -c ios.release",
+    "detox_setup": "eval $(/opt/homebrew/bin/brew shellenv)",
+    "detox_test_1": "npx detox test -c ios.release e2e/test1.e2e.js",
+    "detox_test_2": "npx detox test -c ios.release e2e/test2.e2e.js"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "1.17.11",

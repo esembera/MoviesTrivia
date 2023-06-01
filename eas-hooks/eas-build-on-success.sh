@@ -9,7 +9,7 @@ function cleanup()
   fi
 }
 
-if [[ "$EAS_BUILD_PROFILE" != "test" ]]; then
+if [[ "$EAS_BUILD_PROFILE" != "test"* ]]; then
   exit
 fi
 
@@ -33,13 +33,20 @@ if [[ "$EAS_BUILD_PLATFORM" == "android" ]]; then
     counter=$((counter + 1))
   done
 
+
   # Execute Android tests
   if [[ "$EAS_BUILD_PROFILE" == "test" ]]; then
     detox test --configuration android.release
+  fi
+  if [[ "$EAS_BUILD_PROFILE" == "test_debug" ]]; then
+    detox test --configuration android.debug
   fi
 else
   # Execute iOS tests
   if [[  "$EAS_BUILD_PROFILE" == "test" ]]; then
     detox test --configuration ios.release
+  fi
+  if [[ "$EAS_BUILD_PROFILE" == "test_debug" ]]; then
+    detox test --configuration ios.debug
   fi
 fi
