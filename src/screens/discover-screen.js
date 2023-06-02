@@ -30,11 +30,12 @@ const DiscoverScreen = () => {
   const numPopoularMoviesShown =
     numColumns * numRows > 12 ? numColumns * numRows : 12;
 
+  var timeoutId;
+
   // console.log(genres);
 
   const toggleSearch = () => {
     if (!isSearchVisible) {
-      clearTimeout(timeoutId);
       setSearchVisible(true);
       setIsClicked(false);
     } else {
