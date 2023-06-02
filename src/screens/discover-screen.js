@@ -6,10 +6,12 @@ import { Text } from "native-base";
 import MovieThumbnail from "../components/movieThumbnail";
 import SearchBar from "../components/searchBar";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { colorPalette } from "../../assets/theme/color-palette";
 
 const DiscoverScreen = () => {
   const [movies, setMovies] = useState([]);
   const [isSearchVisible, setSearchVisible] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
 
   const screenWidth = Math.round(Dimensions.get("window").width);
 
@@ -31,7 +33,15 @@ const DiscoverScreen = () => {
   // console.log(genres);
 
   const toggleSearch = () => {
-    setSearchVisible(!isSearchVisible);
+    if (!isSearchVisible) {
+      clearTimeout(timeoutId);
+      setSearchVisible(true);
+      setIsClicked(false);
+    } else {
+      setIsClicked(true);
+      timeoutId = setTimeout(() => setSearchVisible(!isSearchVisible), 500);
+      return;
+    }
   };
 
   //this triggers on rendering the discover movies screen, and it gets the movies from tmdb api and puts 18 of them
@@ -113,7 +123,13 @@ const DiscoverScreen = () => {
           style={styles.topSearchIcon}
         />
       </View>
-      {isSearchVisible && <SearchBar handleSearchParent={handleSearchParent} />}
+      {isSearchVisible && (
+        <SearchBar
+          handleSearchParent={handleSearchParent}
+          isSearchVisible={isSearchVisible}
+          isClicked={isClicked}
+        />
+      )}
       <FlatList
         accessible={true}
         numColumns={numColumns}
@@ -152,6 +168,7 @@ const styles = StyleSheet.create({
   },
   topSearchIcon: {
     paddingTop: 9,
+    color: colorPalette.textColor,
   },
 });
 
