@@ -9,7 +9,7 @@ function FavouriteMoviesContextProvider({ children }) {
   const user = auth.currentUser;
   const [favouriteMovies, setFavouriteMovies] = useState([]);
 
-  function updateFavouriteMovies(newFavourites) {
+  async function updateFavouriteMovies(newFavourites) {
     setFavouriteMovies([]);
     setFavouriteMovies(newFavourites);
     const docRef = db.collection("users").doc(`${user?.uid}`);

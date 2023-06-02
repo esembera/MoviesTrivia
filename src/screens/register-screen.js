@@ -47,7 +47,11 @@ const RegisterScreen = () => {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior="padding"
+      accessible={true}
+    >
       <Text style={styles.welcomeText}>
         Welcome to MovieTrivia! {"\n"}
         {"\n"}
@@ -60,6 +64,7 @@ const RegisterScreen = () => {
           onChangeText={(text) => setUsername(text)}
           style={styles.input}
           autoCapitalize="none"
+          testID="usernameField"
         />
         <TextInput
           placeholder="Email"
@@ -67,12 +72,14 @@ const RegisterScreen = () => {
           onChangeText={(text) => setEmail(text)}
           style={styles.input}
           autoCapitalize="none"
+          testID="emailField"
         />
         <TextInput
           placeholder="Password"
           value={password}
           onChangeText={(text) => setPassword(text)}
           style={styles.input}
+          testID="passwordField"
           secureTextEntry
         />
       </View>
@@ -80,6 +87,7 @@ const RegisterScreen = () => {
         <TouchableOpacity
           onPress={handleSignUp}
           style={[styles.button, styles.buttonOutline]}
+          testID="registerBtn"
         >
           <Text style={styles.buttonOutlineText}>Register</Text>
         </TouchableOpacity>

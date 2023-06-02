@@ -8,7 +8,7 @@ import { scoreHelper } from "../components/helpers/score-helper";
 import FadeInAnimation from "../../assets/animations/fadeInAnimation";
 
 const QuizScreen = ({ navigation, route }) => {
-  const time = 15;
+  const time = 5;
   const { quizType } = route.params;
   // console.log(quizType);
 
@@ -72,6 +72,7 @@ const QuizScreen = ({ navigation, route }) => {
       navigation.replace("Results", {
         answers: answers,
         points: points,
+        quizType: quizType,
       });
     }
     let tempOptions = [];
@@ -114,7 +115,7 @@ const QuizScreen = ({ navigation, route }) => {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView accessible={true}>
       <View style={styles.topContainer1}>
         <Text>Your custom quiz</Text>
         <Pressable style={styles.counterContainer}>
@@ -148,6 +149,7 @@ const QuizScreen = ({ navigation, route }) => {
         <View style={styles.questionContainer}>
           {options?.map((option, i) => (
             <Pressable
+              testID={i.toString()}
               key={i}
               style={
                 selectedAnswer === option &&
@@ -210,6 +212,7 @@ const QuizScreen = ({ navigation, route }) => {
                 })
               }
               style={styles.gameButton}
+              testID="goToResultsBtn"
             >
               <Text style={{ color: "white" }}>Done</Text>
             </Pressable>
@@ -219,6 +222,7 @@ const QuizScreen = ({ navigation, route }) => {
             <Pressable
               onPress={() => setIndex(index + 1)}
               style={styles.gameButton}
+              testID="nextQuestionBtn"
             >
               <Text style={{ color: "white" }}>Next Question</Text>
             </Pressable>

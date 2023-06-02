@@ -22,12 +22,13 @@ const HomeScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} accessible={true} testID="outerContainer">
       <View style={styles.insideContainerTop}>
         <Text style={styles.welcomeText}>Welcome {currentUsername}!</Text>
       </View>
       <View style={styles.buttonContainer}>
         <Button
+          testID="discoverMoviesBtn"
           onPress={() => navigation.navigate("Discover")}
           _text={{
             color: colorPalette.componentTextColor,
@@ -39,6 +40,7 @@ const HomeScreen = ({ navigation }) => {
       </View>
       <View style={styles.buttonContainer}>
         <Button
+          testID="playQuizBtn"
           onPress={() => navigation.navigate("QuizSelection")}
           _text={{
             color: colorPalette.componentTextColor,
@@ -50,6 +52,7 @@ const HomeScreen = ({ navigation }) => {
       </View>
       <View style={styles.buttonContainer}>
         <Button
+          testID="leaderboardBtn"
           onPress={() => navigation.navigate("Leaderboard")}
           _text={{
             color: colorPalette.componentTextColor,
@@ -61,6 +64,7 @@ const HomeScreen = ({ navigation }) => {
       </View>
       <View style={styles.buttonContainer}>
         <Button
+          testID="favouritesBtn"
           onPress={() => navigation.navigate("Favourites")}
           _text={{
             color: colorPalette.componentTextColor,
@@ -72,6 +76,7 @@ const HomeScreen = ({ navigation }) => {
       </View>
       <View style={styles.buttonContainer}>
         <Button
+          testID="logOutBtn"
           onPress={handleSignOut}
           _text={{
             color: colorPalette.componentTextColor,

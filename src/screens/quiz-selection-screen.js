@@ -26,7 +26,7 @@ const QuizSelection = ({ navigation }) => {
     navigation.navigate("Quiz", { quizType: path.split("/")[1] });
   };
   return (
-    <View style={styles.container}>
+    <View style={styles.container} accessible={true}>
       <View>
         <Text style={styles.text}>
           Custom quiz generated from the movies from your favourites list:
@@ -35,6 +35,7 @@ const QuizSelection = ({ navigation }) => {
       <View style={styles.topContainer}>
         <View style={styles.customQuizButton}>
           <Button
+            testID="customQuizBtn"
             onPress={() => {
               if (favouriteMovies.length < 3) {
                 toast.show({
@@ -93,6 +94,7 @@ const QuizSelection = ({ navigation }) => {
               color: colorPalette.componentTextColor,
             }}
             size="lg"
+            testID="dramaQuizBtn"
           >
             Drama
           </Button>

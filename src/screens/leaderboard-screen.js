@@ -5,6 +5,7 @@ import { quizTypes } from "../components/helpers/quiz-types-helper";
 import { FlatList, HStack, Spacer, Box, Spinner } from "native-base";
 import { colorPalette } from "../../assets/theme/color-palette";
 import Icon from "react-native-vector-icons/AntDesign";
+import { quizTypeMapper } from "../components/helpers/quiz-type-mapper";
 
 const LeaderboardScreen = () => {
   const [i, setI] = useState(0);
@@ -41,7 +42,7 @@ const LeaderboardScreen = () => {
 
   // getLeaderboards().then((data) => console.log(data));
   return (
-    <View style={styles.container}>
+    <View style={styles.container} accessible={true}>
       <View style={styles.parentContainer}>
         <View style={styles.insideContainerTop}>
           <Text style={styles.headingText}>Top 10 leaderboards by genre</Text>
@@ -62,7 +63,9 @@ const LeaderboardScreen = () => {
               }}
             />
             <View style={styles.textContainer}>
-              <Text style={styles.leaderboardText}>{quizTypes[i]}</Text>
+              <Text style={styles.leaderboardText}>
+                {quizTypeMapper(quizTypes[i])}
+              </Text>
             </View>
             <Icon
               name="stepforward"
@@ -93,6 +96,7 @@ const LeaderboardScreen = () => {
       <View style={styles.insideContainer}>
         {leaderboardsData && (
           <FlatList
+            accessible={true}
             data={leaderboardsData}
             renderItem={({ item }) => (
               <Box
@@ -102,11 +106,18 @@ const LeaderboardScreen = () => {
                 style={{ margin: 5 }}
               >
                 <HStack space={2} alignItems="center">
-                  <Text style={{ color: colorPalette.textColor }}>
+                  <Text
+                    style={{ color: colorPalette.textColor }}
+                    testID={item[0]}
+                  >
                     {item[0]}
                   </Text>
                   <Spacer />
-                  <Text style={{ color: colorPalette.textColor }}>
+                  <Text
+                    style={{ color: colorPalette.textColor }}
+                    accessibilityLabel={item[0]}
+                    accessibilityValue={{ text: item[1].toString() }}
+                  >
                     {item[1]}
                   </Text>
                 </HStack>

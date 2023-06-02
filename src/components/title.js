@@ -6,12 +6,16 @@ import { colorPalette } from "../../assets/theme/color-palette";
 const Title = ({ navigation, route }) => {
   // console.log(route.name);
   return (
-    <View style={styles.titleContainer}>
+    <View style={styles.titleContainer} accessible={true}>
       <Text style={styles.title}>MovieTrivia</Text>
       {route.name !== "Home" &&
         route.name !== "Login" &&
         route.name !== "Results" && (
-          <Pressable style={styles.icon} onPress={() => navigation.goBack()}>
+          <Pressable
+            style={styles.icon}
+            onPress={() => navigation.goBack()}
+            testID="goBackBtn"
+          >
             <Icon
               name="left"
               size={30}
