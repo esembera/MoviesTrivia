@@ -15,7 +15,9 @@ const UserFavouriteMoviesScreen = ({ navigation }) => {
 
   const columnWidth = 133;
 
-  const numColumns = Math.floor(screenWidth / columnWidth);
+  var numColumns = Math.floor(screenWidth / columnWidth);
+
+  numColumns = numColumns >= 3 ? numColumns : 3;
 
   useEffect(() => {
     let tempMovies = [];
