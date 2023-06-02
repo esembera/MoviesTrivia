@@ -1,4 +1,4 @@
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList, Dimensions } from "react-native";
 import React, { useEffect, useState } from "react";
 import { getMovies } from "../services/movie.service";
 import { genres } from "../components/statics/genres.json";
@@ -10,6 +10,23 @@ import Icon from "react-native-vector-icons/FontAwesome";
 const DiscoverScreen = () => {
   const [movies, setMovies] = useState([]);
   const [isSearchVisible, setSearchVisible] = useState(false);
+
+  const screenWidth = Math.round(Dimensions.get("window").width);
+
+  const screenHeight = Math.round(Dimensions.get("window").height);
+
+  columnHeight = 183;
+
+  const columnWidth = 133;
+
+  var numColumns = Math.floor(screenWidth / columnWidth);
+
+  numColumns = numColumns >= 3 ? numColumns : 3;
+
+  const numRows = Math.floor(screenHeight / columnHeight);
+
+  const numPopoularMoviesShown =
+    numColumns * numRows > 12 ? numColumns * numRows : 12;
 
   // console.log(genres);
 
@@ -37,7 +54,11 @@ const DiscoverScreen = () => {
           movie.genre_ids = genreNames;
         });
       });
-      for (i = 0; i < 18; i++) {
+      const max =
+        response.results.length > numPopoularMoviesShown
+          ? numPopoularMoviesShown
+          : response.results.length;
+      for (i = 0; i < max; i++) {
         tempMovies.push(response.results[i]);
       }
       setMovies(tempMovies);
@@ -51,7 +72,11 @@ const DiscoverScreen = () => {
       "&sort_by=popularity.desc"
     );
     let tempMovies = [];
-    for (i = 0; i < 18; i++) {
+    const max =
+      response.results.length > numPopoularMoviesShown
+        ? numPopoularMoviesShown
+        : response.results.length;
+    for (i = 0; i < max; i++) {
       tempMovies.push(response.results[i]);
     }
     setMovies(tempMovies);
@@ -62,10 +87,14 @@ const DiscoverScreen = () => {
       getPopularMovies();
     } else {
       let tempMovies = [];
-      for (i = 0; i < 9; i++) {
+      const max =
+        searchedMovies.length > numPopoularMoviesShown
+          ? numPopoularMoviesShown
+          : searchedMovies.length;
+      for (i = 0; i < max; i++) {
         tempMovies.push(searchedMovies[i]);
       }
-      setMovies(searchedMovies);
+      setMovies(tempMovies);
     }
   };
 
@@ -87,7 +116,7 @@ const DiscoverScreen = () => {
       {isSearchVisible && <SearchBar handleSearchParent={handleSearchParent} />}
       <FlatList
         accessible={true}
-        numColumns={3}
+        numColumns={numColumns}
         data={movies}
         style={styles.container}
         scrollIndicatorInsets={{ right: 1 }}

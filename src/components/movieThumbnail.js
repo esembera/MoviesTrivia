@@ -5,6 +5,7 @@ import {
   ImageBackground,
   StyleSheet,
   Image,
+  Dimensions,
 } from "react-native";
 import React, { useContext, useState, createContext } from "react";
 import { MOVIESDB_IMAGE_URL } from "@env";
@@ -17,6 +18,10 @@ const MovieThumbnail = ({ imageURL, movieName, movieId, testID }) => {
   const { favouriteMovies, updateFavouriteMovies } = useContext(
     FavouriteMoviesContext
   );
+
+  const screenWidth = Math.round(Dimensions.get("window").width);
+
+  const movieThumbnailWidth = screenWidth >= 399 ? 105 : 90;
 
   const [isAdded, setIsAdded] = useState(false);
   const [isRemoved, setIsRemoved] = useState(false);
@@ -59,7 +64,11 @@ const MovieThumbnail = ({ imageURL, movieName, movieId, testID }) => {
     >
       <View accessible={true}>
         <TouchableOpacity
-          style={styles.movieThumbnail}
+          style={
+            movieThumbnailWidth == 105
+              ? styles.movieThumbnail
+              : styles.movieThumbnailSmall
+          }
           onPress={() => addOrRemoveFromFavourites(movieId)}
           testID={testID}
         >
@@ -116,6 +125,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: 105,
     height: 155,
+  },
+  movieThumbnailSmall: {
+    margin: 14,
+    borderRadius: 10,
+    width: 90,
+    height: 140,
   },
   image: {
     flex: 1,

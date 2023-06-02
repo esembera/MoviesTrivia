@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import { StyleSheet, Text, View, FlatList, Dimensions } from "react-native";
 import React, { useContext, useState, useEffect } from "react";
 import MovieThumbnail from "../components/movieThumbnail";
 import { FavouriteMoviesContext } from "../components/contexts/favouriteMovies.context";
@@ -10,6 +10,12 @@ import FadeInAnimation from "../../assets/animations/fadeInAnimation";
 const UserFavouriteMoviesScreen = ({ navigation }) => {
   const { favouriteMovies } = useContext(FavouriteMoviesContext);
   const [movies, setMovies] = useState([]);
+
+  const screenWidth = Math.round(Dimensions.get("window").width);
+
+  const columnWidth = 133;
+
+  const numColumns = Math.floor(screenWidth / columnWidth);
 
   useEffect(() => {
     let tempMovies = [];
@@ -34,7 +40,7 @@ const UserFavouriteMoviesScreen = ({ navigation }) => {
       {favouriteMovies.length !== 0 && (
         <FlatList
           accessible={true}
-          numColumns={3}
+          numColumns={numColumns}
           data={movies}
           style={styles.container}
           scrollIndicatorInsets={{ right: 1 }}

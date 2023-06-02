@@ -5,6 +5,7 @@ import { quizTypes } from "../components/helpers/quiz-types-helper";
 import { FlatList, HStack, Spacer, Box, Spinner } from "native-base";
 import { colorPalette } from "../../assets/theme/color-palette";
 import Icon from "react-native-vector-icons/AntDesign";
+import { quizTypeMapper } from "../components/helpers/quiz-type-mapper";
 
 const LeaderboardScreen = () => {
   const [i, setI] = useState(0);
@@ -62,7 +63,9 @@ const LeaderboardScreen = () => {
               }}
             />
             <View style={styles.textContainer}>
-              <Text style={styles.leaderboardText}>{quizTypes[i]}</Text>
+              <Text style={styles.leaderboardText}>
+                {quizTypeMapper(quizTypes[i])}
+              </Text>
             </View>
             <Icon
               name="stepforward"
