@@ -13,21 +13,21 @@ const DiscoverScreen = () => {
   const [isSearchVisible, setSearchVisible] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
 
-  const screenWidth = Math.round(Dimensions.get("window").width);
+  var screenWidth = Math.round(Dimensions.get("window").width);
 
-  const screenHeight = Math.round(Dimensions.get("window").height);
+  var screenHeight = Math.round(Dimensions.get("window").height);
 
   columnHeight = 183;
 
-  const columnWidth = 133;
+  var columnWidth = 133;
 
   var numColumns = Math.floor(screenWidth / columnWidth);
 
   numColumns = numColumns >= 3 ? numColumns : 3;
 
-  const numRows = Math.floor(screenHeight / columnHeight);
+  var numRows = Math.floor(screenHeight / columnHeight);
 
-  const numPopoularMoviesShown =
+  var numPopularMoviesShown =
     numColumns * numRows > 12 ? numColumns * numRows : 12;
 
   var timeoutId;
@@ -66,11 +66,28 @@ const DiscoverScreen = () => {
         });
       });
       const max =
-        response.results.length > numPopoularMoviesShown
-          ? numPopoularMoviesShown
+        response.results.length > numPopularMoviesShown
+          ? numPopularMoviesShown
           : response.results.length;
       for (i = 0; i < max; i++) {
         tempMovies.push(response.results[i]);
+      }
+      if (numPopularMoviesShown > response.results.length) {
+        const noOfPages = Math.ceil(
+          numPopularMoviesShown / response.results.length
+        );
+        for (i = 1; i < noOfPages; i++) {
+          const response = await getMovies(
+            "/discover/movie",
+            `&sort_by=popularity.desc&page=${i + 1}`
+          );
+          for (j = 0; j < response.results.length; j++) {
+            tempMovies.push(response.results[j]);
+            if (tempMovies.length == numPopularMoviesShown) {
+              break;
+            }
+          }
+        }
       }
       setMovies(tempMovies);
     };
@@ -84,11 +101,28 @@ const DiscoverScreen = () => {
     );
     let tempMovies = [];
     const max =
-      response.results.length > numPopoularMoviesShown
-        ? numPopoularMoviesShown
+      response.results.length > numPopularMoviesShown
+        ? numPopularMoviesShown
         : response.results.length;
     for (i = 0; i < max; i++) {
       tempMovies.push(response.results[i]);
+    }
+    if (numPopularMoviesShown > response.results.length) {
+      const noOfPages = Math.ceil(
+        numPopularMoviesShown / response.results.length
+      );
+      for (i = 1; i < noOfPages; i++) {
+        const response = await getMovies(
+          "/discover/movie",
+          `&sort_by=popularity.desc&page=${i + 1}`
+        );
+        for (j = 0; j < response.results.length; j++) {
+          tempMovies.push(response.results[j]);
+          if (tempMovies.length == numPopularMoviesShown) {
+            break;
+          }
+        }
+      }
     }
     setMovies(tempMovies);
   };
@@ -99,8 +133,8 @@ const DiscoverScreen = () => {
     } else {
       let tempMovies = [];
       const max =
-        searchedMovies.length > numPopoularMoviesShown
-          ? numPopoularMoviesShown
+        searchedMovies.length > numPopularMoviesShown
+          ? numPopularMoviesShown
           : searchedMovies.length;
       for (i = 0; i < max; i++) {
         tempMovies.push(searchedMovies[i]);

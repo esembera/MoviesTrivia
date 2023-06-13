@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     width: "40%",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: "10%",
+    marginTop: "5%",
     padding: 10,
   },
   welcomeText: {
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     backgroundColor: colorPalette.componentsBackgroundColor,
     height: 2,
     width: "100%",
-    marginTop: "15%",
+    marginTop: "5%",
   },
   topContainer: {
     justifyContent: "center",
