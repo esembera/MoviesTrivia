@@ -1,5 +1,5 @@
-import { StyleSheet, View, Text } from "react-native";
-import React, { useContext, useState } from "react";
+import { StyleSheet, View, Text, Dimensions } from "react-native";
+import React, { useContext, useState, useEffect } from "react";
 import { colorPalette } from "../../assets/theme/color-palette";
 import { FavouriteMoviesContext } from "../components/contexts/favouriteMovies.context";
 import { QuestionsContext } from "../components/contexts/questionsContext";
@@ -12,6 +12,8 @@ const QuizSelection = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
 
   const toast = useToast();
+
+  const screenWidth = Math.round(Dimensions.get("window").width);
 
   const callBackend = async (path) => {
     setLoading(true);
@@ -33,7 +35,13 @@ const QuizSelection = ({ navigation }) => {
         </Text>
       </View>
       <View style={styles.topContainer}>
-        <View style={styles.customQuizButton}>
+        <View
+          style={
+            screenWidth > 500
+              ? styles.customQuizButtonTablet
+              : styles.customQuizButtonMobile
+          }
+        >
           <Button
             testID="customQuizBtn"
             onPress={() => {
@@ -60,7 +68,11 @@ const QuizSelection = ({ navigation }) => {
           </Button>
         </View>
       </View>
-      <View style={styles.hairline} />
+      <View
+        style={
+          screenWidth > 500 ? styles.hairlineTablet : styles.hairlineMobile
+        }
+      />
       <View>
         <Text style={styles.text}>Genre quizzes made by us:</Text>
       </View>
@@ -182,7 +194,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     padding: 10,
   },
-  customQuizButton: {
+  customQuizButtonMobile: {
+    width: "40%",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: "15%",
+    padding: 10,
+  },
+  customQuizButtonTablet: {
     width: "40%",
     justifyContent: "center",
     alignItems: "center",
@@ -194,7 +213,13 @@ const styles = StyleSheet.create({
     color: colorPalette.textColor,
     fontWeight: "700",
   },
-  hairline: {
+  hairlineMobile: {
+    backgroundColor: colorPalette.componentsBackgroundColor,
+    height: 2,
+    width: "100%",
+    marginTop: "15%",
+  },
+  hairlineTablet: {
     backgroundColor: colorPalette.componentsBackgroundColor,
     height: 2,
     width: "100%",
@@ -209,6 +234,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     flexDirection: "row",
     justifyContent: "center",
+    paddingTop: 10,
   },
   spinnerContainer: {
     position: "absolute",

@@ -13,9 +13,9 @@ const DiscoverScreen = () => {
   const [isSearchVisible, setSearchVisible] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
 
-  var screenWidth = Math.round(Dimensions.get("window").width);
+  const screenWidth = Math.round(Dimensions.get("window").width);
 
-  var screenHeight = Math.round(Dimensions.get("window").height);
+  const screenHeight = Math.round(Dimensions.get("window").height);
 
   columnHeight = 183;
 

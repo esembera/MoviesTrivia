@@ -12,12 +12,15 @@ import { auth, db } from "../../firebase";
 import { useNavigation } from "@react-navigation/core";
 import { AuthContext } from "../components/contexts/auth.context";
 import { FavouriteMoviesContext } from "../components/contexts/favouriteMovies.context";
+import { useToast } from "native-base";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { logIn, setCurrentUsername } = useContext(AuthContext);
   const { setFavouriteMovies } = useContext(FavouriteMoviesContext);
+
+  const toast = useToast();
 
   const navigation = useNavigation();
 
@@ -33,6 +36,16 @@ const LoginScreen = () => {
   }, []);
 
   const handleLogIn = () => {
+    if (email === "" || password === "") {
+      toast.show({
+        title: "Error",
+        description: "Please enter your email and password",
+        variant: "subtle",
+        placement: "bottom",
+        bg: colorPalette.componentsBackgroundColor,
+      });
+      return;
+    }
     logIn(email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
@@ -40,7 +53,37 @@ const LoginScreen = () => {
         getFavouriteMovies(user.uid);
         getUsername(user.uid);
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => {
+        if (
+          error.code === "auth/wrong-password" ||
+          error.code === "auth/user-not-found"
+        ) {
+          toast.show({
+            title: "Error",
+            description: "E-mail or password you entered is incorrect",
+            variant: "subtle",
+            placement: "bottom",
+            bg: colorPalette.componentsBackgroundColor,
+          });
+        } else if (error.code === "auth/too-many-requests") {
+          toast.show({
+            title: "Error",
+            description:
+              "Too many unsuccessful login attempts. Please try again later.",
+            variant: "subtle",
+            placement: "bottom",
+            bg: colorPalette.componentsBackgroundColor,
+          });
+        } else if (error.code === "auth/invalid-email") {
+          toast.show({
+            title: "Error",
+            description: "Please enter a valid email address",
+            variant: "subtle",
+            placement: "bottom",
+            bg: colorPalette.componentsBackgroundColor,
+          });
+        }
+      });
   };
 
   const getFavouriteMovies = async (uid) => {

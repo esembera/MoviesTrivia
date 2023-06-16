@@ -12,6 +12,7 @@ import { auth, db } from "../../firebase";
 import { useNavigation } from "@react-navigation/core";
 import { AuthContext } from "../components/contexts/auth.context";
 import { FavouriteMoviesContext } from "../components/contexts/favouriteMovies.context";
+import { useToast } from "native-base";
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState("");
@@ -19,6 +20,8 @@ const RegisterScreen = () => {
   const [username, setUsername] = useState("");
   const { signUp, setCurrentUsername } = useContext(AuthContext);
   const { favouriteMovies } = useContext(FavouriteMoviesContext);
+
+  const toast = useToast();
 
   const navigation = useNavigation();
 
@@ -34,6 +37,16 @@ const RegisterScreen = () => {
   }, []);
 
   const handleSignUp = () => {
+    if (email === "" || password === "") {
+      toast.show({
+        title: "Error",
+        description: "Please enter your username, email and password.",
+        variant: "subtle",
+        placement: "bottom",
+        bg: colorPalette.componentsBackgroundColor,
+      });
+      return;
+    }
     signUp(email, password)
       .then((userCredentials) => {
         console.log("Registered with user:", userCredentials.user.email);
@@ -42,7 +55,56 @@ const RegisterScreen = () => {
           username: username,
         });
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => {
+        if (
+          error.code === "auth/wrong-password" ||
+          error.code === "auth/user-not-found"
+        ) {
+          toast.show({
+            title: "Error",
+            description:
+              "E-mail or password you entered is incorrect. Please try again.",
+            variant: "subtle",
+            placement: "bottom",
+            bg: colorPalette.componentsBackgroundColor,
+          });
+        } else if (error.code === "auth/too-many-requests") {
+          toast.show({
+            title: "Error",
+            description:
+              "Too many unsuccessful login attempts. Please try again later.",
+            variant: "subtle",
+            placement: "bottom",
+            bg: colorPalette.componentsBackgroundColor,
+          });
+        } else if (error.code === "auth/invalid-email") {
+          toast.show({
+            title: "Error",
+            description: "Please enter a valid email address.",
+            variant: "subtle",
+            placement: "bottom",
+            bg: colorPalette.componentsBackgroundColor,
+          });
+        } else if (error.code === "auth/weak-password") {
+          toast.show({
+            title: "Error",
+            description:
+              "Password you entered is too weak. Please try again with a stronger password. (min. 6 characters)",
+            variant: "subtle",
+            placement: "bottom",
+            bg: colorPalette.componentsBackgroundColor,
+          });
+        } else if (error.code === "auth/email-already-in-use") {
+          toast.show({
+            title: "Error",
+            description:
+              "This email is already in use. Please try again using different email.",
+            variant: "subtle",
+            placement: "bottom",
+            bg: colorPalette.componentsBackgroundColor,
+          });
+        }
+      });
     setCurrentUsername(username);
   };
 
