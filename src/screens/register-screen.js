@@ -37,7 +37,7 @@ const RegisterScreen = () => {
   }, []);
 
   const handleSignUp = () => {
-    if (email === "" || password === "") {
+    if (email === "" || password === "" || username === "") {
       toast.show({
         title: "Error",
         description: "Please enter your username, email and password.",
