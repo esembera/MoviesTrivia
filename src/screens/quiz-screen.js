@@ -62,10 +62,14 @@ const QuizScreen = ({ navigation, route }) => {
     };
     intervalRef.current = setTimeout(myInterval, 1000);
 
+    if (selectedAnswer !== "") {
+      clearInterval(intervalRef.current);
+    }
+
     return () => {
       clearInterval(intervalRef.current);
     };
-  }, [counter]);
+  }, [counter, selectedAnswer]);
 
   useEffect(() => {
     if (questions && questions.length > 0 && index + 1 > questions.length) {
