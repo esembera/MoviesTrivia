@@ -8,7 +8,7 @@ import { scoreHelper } from "../components/helpers/score-helper";
 import FadeInAnimation from "../../assets/animations/fadeInAnimation";
 
 const QuizScreen = ({ navigation, route }) => {
-  const time = 5;
+  const time = 15;
   const { quizType } = route.params;
   // console.log(quizType);
 
